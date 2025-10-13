@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Melissa — Лазерная эстетика лица и тела</title>
+<meta name="description" content="Студия Melissa — лазерная эстетика лица и тела. Запись онлайн: +7 949 322 5474" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<!-- GSAP (animations) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js" defer></script>
+
+<style>
+  /* -------------------------
+     Design tokens (carefully tuned)
+     -------------------------*/
+  :root{
+    --bg-1: #f2ffff;
+    --bg-2: #dffafa;
+    --accent-1: #00c1bf;
+    --accent-2: #007f7f;
+    --muted: #687a7a;
+    --text: #0b2b2b;
+    --glass: rgba(255,255,255,0.20);
+    --card: rgba(255,255,255,0.6);
+    --maxW: 1180px;
+    --radius-lg: 24px;
+    --radius-md: 14px;
+    --shadow-soft: 0 12px 40px rgba(0,115,115,0.12);
+    --easing: cubic-bezier(.22,.9,.32,1);
+    --space: 18px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%; margin:0; font-family:Inter,system-ui,Segoe UI,Arial; color:var(--text); -webkit-font-smoothing:antialiased; background:linear-gradient(160deg,var(--bg-1),var(--bg-2));}
+  a{text-decoration:none; color:inherit}
+  img{max-width:100%; display:block}
+
+  /* -------------------------
+     Header
+     -------------------------*/
+  header{
+    position:fixed; top:16px; left:0; right:0; z-index:1200; pointer-events:none;
+    display:flex; justify-content:center;
+  }
+  .navwrap{pointer-events:auto; width:min(94%, var(--maxW)); display:flex; align-items:center; justify-content:space-between; gap:12px; background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55)); padding:12px 18px; border-radius:14px; box-shadow:0 6px 24px rgba(0,0,0,0.06); backdrop-filter: blur(6px); border:1px solid rgba(255,255,255,0.6)}
+  .brand{display:flex; gap:12px; align-items:center}
+  .brand .logo{width:52px;height:52px; display:grid; place-items:center; border-radius:12px; background:linear-gradient(135deg,#e0ffff,#baf7f7); box-shadow:inset 0 -6px 18px rgba(0,0,0,0.04);}
+  .brand h1{font-family:Playfair Display, serif; margin:0; font-size:18px; line-height:1; color:var(--text)}
+  .brand p{margin:0; color:var(--muted); font-size:12px}
+
+  nav ul{display:flex; gap:14px; align-items:center; margin:0; padding:0; list-style:none}
+  nav a{font-weight:600; font-size:14px; color:var(--muted); padding:8px 10px; border-radius:12px}
+  nav a:hover{color:var(--accent-2); background:rgba(0,0,0,0.02)}
+
+  .phone-cta{background:linear-gradient(180deg,var(--accent-1),var(--accent-2)); color:white; padding:10px 14px; border-radius:14px; box-shadow:0 10px 30px rgba(0,140,140,0.15); font-weight:700; display:flex; gap:8px; align-items:center}
+
+  /* -------------------------
+     Hero — meticulously crafted
+     -------------------------*/
+  .hero{
+    width:min(96%, var(--maxW)); margin:120px auto 36px; display:grid; grid-template-columns: 1fr 420px; gap:34px; align-items:center;
+  }
+  .hero-left{padding:18px 6px}
+  .eyebrow{display:inline-block; font-weight:700; color:var(--accent-2); letter-spacing:0.8px; font-size:13px; margin-bottom:12px}
+  .title{
+    font-family:Playfair Display, serif; font-size:48px; line-height:1.02; margin:0 0 16px; color:var(--text);
+    text-shadow: 0 6px 18px rgba(0,140,140,0.06);
+  }
+  .lede{color:var(--muted); font-size:17px; line-height:1.7; max-width:60ch}
+  .hero-actions{display:flex; gap:14px; margin-top:20px}
+  .btn-primary{background:linear-gradient(180deg,var(--accent-1),var(--accent-2)); color:white; padding:12px 18px; border-radius:14px; border:none; cursor:pointer; font-weight:700; box-shadow:0 10px 32px rgba(0,120,120,0.16); transition:transform .22s var(--easing)}
+  .btn-primary:hover{transform:translateY(-4px)}
+  .btn-ghost{padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.06); background:transparent; color:var(--muted); font-weight:600}
+
+  /* Hero right card — depth, glass, microcopy */
+  .hero-card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.65));
+    border-radius:20px; padding:22px; box-shadow:var(--shadow-soft); position:relative; overflow:hidden;
+    border:1px solid rgba(255,255,255,0.5);
+  }
+  .hero-card h3{margin:0 0 6px; font-family:Playfair Display; font-size:20px}
+  .hero-card p{margin:0; color:var(--muted); font-size:14px}
+  .hero-card .phone{margin-top:12px; display:flex; gap:10px; align-items:center; font-weight:700; color:var(--accent-2)}
+  .hero-card .small{font-size:13px;color:var(--muted); margin-top:8px}
+
+  /* -------------------------
+     Section separators & containers
+     -------------------------*/
+  .section{width:min(96%, var(--maxW)); margin:48px auto; padding:8px 6px}
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+  .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:18px}
+  .card{background:var(--card); border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,0.04)}
+
+  /* -------------------------
+     Services — refined cards
+     -------------------------*/
+  .svc{background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45)); border-radius:14px; padding:20px; transition:transform .35s var(--easing), box-shadow .35s var(--easing); display:flex; gap:14px; align-items:flex-start}
+  .svc:hover{transform:translateY(-8px); box-shadow:0 18px 46px rgba(0,120,120,0.12)}
+  .svc .icon{width:56px;height:56px; border-radius:12px; display:grid; place-items:center; background:linear-gradient(135deg,#eaffff,#baf7f7); box-shadow:inset 0 -6px 14px rgba(0,0,0,0.04)}
+  .svc h4{margin:0 0 6px; font-family:Playfair Display; font-size:18px}
+  .svc p{margin:0; color:var(--muted)}
+
+  /* -------------------------
+     About section — detailed polish
+     -------------------------*/
+  .about{display:grid; grid-template-columns: 1fr 1fr; gap:26px; align-items:center}
+  .about-left{position:relative; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-soft); min-height:320px}
+  .about-bg{
+    width:100%; height:100%; background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.22), transparent 8%),
+    linear-gradient(135deg,#a8f6f6 0%, #00c0c0 100%);
+    padding:28px; display:flex; align-items:center; justify-content:center;
+  }
+  /* decorative detailed butterfly: vector with subtle inner pattern */
+  .butterfly-illustration{max-width:320px; filter:drop-shadow(0 18px 40px rgba(0,0,0,0.16))}
+
+  .about-right{background:var(--glass); backdrop-filter:blur(8px); padding:28px; border-radius:18px; box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+  .about-right h2{font-family:Playfair Display; margin:0 0 10px; font-size:30px}
+  .about-right p{color:var(--muted); line-height:1.7; margin:0 0 12px}
+  .microlist{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px}
+  .microtag{background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3)); padding:8px 12px; border-radius:999px; font-weight:600; color:var(--accent-2); font-size:13px; box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+
+  /* -------------------------
+     Prices — compact & readable
+     -------------------------*/
+  .prices-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  .price-card{background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75)); border-radius:12px; padding:18px; border:1px solid rgba(0,0,0,0.03)}
+  .price-card h5{margin:0 0 10px; font-family:Playfair Display; font-size:16px}
+  .price-list{list-style:none; margin:0; padding:0}
+  .price-list li{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed rgba(0,0,0,0.04); color:var(--muted); font-size:14px}
+
+  /* -------------------------
+     Booking form — modal confirmation and nicer inputs
+     -------------------------*/
+  .booking-wrap{display:grid; grid-template-columns: 1fr 380px; gap:22px; align-items:start}
+  .form-card{background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78)); padding:18px; border-radius:12px; box-shadow:0 10px 36px rgba(0,0,0,0.06)}
+  .field{display:flex; flex-direction:column; gap:8px; margin-bottom:12px}
+  label{font-size:13px; color:var(--muted)}
+  input, select, textarea{padding:12px; border-radius:10px; border:1px solid rgba(0,0,0,0.06); font-size:15px; outline:none}
+  input:focus, select:focus, textarea:focus{box-shadow:0 6px 24px rgba(0,160,160,0.09); border-color:var(--accent-1)}
+  .btn-wide{display:inline-block; width:100%; text-align:center}
+
+  /* -------------------------
+     Footer & floating CTA
+     -------------------------*/
+  footer{margin-top:42px; padding:28px 0; border-top:1px solid rgba(0,0,0,0.04); color:var(--muted)}
+  .fwrap{width:min(96%, var(--maxW)); margin:0 auto; display:flex; justify-content:space-between; align-items:center}
+  .floating-book{position:fixed; right:18px; bottom:18px; z-index:1300}
+  .floating-book button{background:linear-gradient(180deg,var(--accent-1),var(--accent-2)); color:white; border-radius:999px; padding:14px 18px; border:none; box-shadow:0 16px 46px rgba(0,120,120,0.16); font-weight:700}
+
+  /* -------------------------
+     Responsive tweaks
+     -------------------------*/
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr; gap:18px; margin-top:130px}
+    .about{grid-template-columns:1fr; gap:18px}
+    .prices-grid{grid-template-columns:repeat(2,1fr)}
+    .booking-wrap{grid-template-columns:1fr}
+    nav ul{display:none}
+  }
+  @media (max-width:560px){
+    .prices-grid{grid-template-columns:1fr}
+    .title{font-size:34px}
+    .brand h1{font-size:16px}
+  }
+
+  /* subtle focus outlines for accessibility */
+  :focus{outline:2px solid rgba(0,200,200,0.12); outline-offset:2px}
+</style>
+</head>
+<body>
+
+<!-- subtle particles (canvas) -->
+<canvas id="particles" aria-hidden="true" style="position:fixed; inset:0; z-index:0; pointer-events:none"></canvas>
+
+<!-- Header -->
+<header>
+  <div class="navwrap" role="banner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <!-- refined mini-symbol -->
+        <svg viewBox="0 0 64 64" width="36" height="36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="lg1" x1="0" x2="1"><stop offset="0" stop-color="#e6ffff"/><stop offset="1" stop-color="#aef6f6"/></linearGradient>
+          </defs>
+          <rect x="6" y="6" width="52" height="52" rx="10" fill="url(#lg1)"/>
+          <g transform="translate(16,14)" fill="#007f7f" opacity="0.95">
+            <path d="M16 4c-8 0-12 8-12 12s3 8 12 12 12-6 12-12S24 4 16 4z"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <h1>Melissa</h1>
+        <p>лазерная эстетика лица и тела</p>
+      </div>
+    </div>
+
+    <nav role="navigation" aria-label="Main">
+      <ul>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#prices">Цены</a></li>
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+
+    <div style="display:flex; gap:12px; align-items:center">
+      <a class="phone-cta" href="tel:+79493225474" aria-label="Позвонить в Melissa">📞 +7 949 322 5474</a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero" role="region" aria-labelledby="heroTitle">
+  <div class="hero-left">
+    <div class="eyebrow">Студия премиальной лазерной эстетики</div>
+    <h1 id="heroTitle" class="title">Красота, созданная технологией и вниманием к деталям</h1>
+    <p class="lede">Melissa — современная студия лазерной эстетики лица и тела. Персональные программы, деликатные методики и комфортные условия — результат, который заметен и сохраняется.</p>
+    <div class="hero-actions" role="toolbar" aria-label="Действия">
+      <button class="btn-primary" onclick="document.location='#booking'">Записаться онлайн</button>
+      <a class="btn-ghost" href="#prices" role="button">Посмотреть прайс</a>
+    </div>
+  </div>
+
+  <aside class="hero-card" aria-labelledby="bookingTitle">
+    <h3 id="bookingTitle">Быстрая запись</h3>
+    <div class="phone">📞 <a href="tel:+79493225474">+7 949 322 5474</a></div>
+    <p class="small">ТЦ "Рандеву", 3 этаж, студия Melissa — у нас уютно, стерильно и по-заботливому.</p>
+    <div style="margin-top:12px">
+      <strong style="display:block">Режим работы</strong>
+      <span style="color:var(--muted)">Пн–Сб 9:00–19:00</span>
+    </div>
+    <div style="margin-top:14px">
+      <button class="btn-primary btn-wide" onclick="document.getElementById('name').focus(); scrollToBooking()">Записаться сейчас</button>
+    </div>
+  </aside>
+</section>
+
+<!-- Services -->
+<section id="services" class="section" aria-labelledby="servicesTitle">
+  <h2 id="servicesTitle" style="font-family:Playfair Display;margin:0 0 16px;font-size:26px">Услуги</h2>
+  <div class="grid-3">
+    <div class="svc" aria-hidden="false">
+      <div class="icon" aria-hidden="true">
+        <!-- subtle laser icon -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M2 12h20" stroke="#007f7f" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke="#00c1bf" stroke-width="1.6"/></svg>
+      </div>
+      <div>
+        <h4>Лазерная эпиляция</h4>
+        <p>Безопасная и быстрая эпиляция на современном оборудовании — гладкость надолго.</p>
+      </div>
+    </div>
+
+    <div class="svc">
+      <div class="icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 20l4-8 8-8" stroke="#007f7f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h4>Удаление татуажа и татуировок</h4>
+        <p>Деликатный подход: точечное удаление и коррекция цвета специалистами.</p>
+      </div>
+    </div>
+
+    <div class="svc">
+      <div class="icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#007f7f" stroke-width="1.6"/><path d="M8 12h8" stroke="#00c1bf" stroke-width="1.6"/></svg>
+      </div>
+      <div>
+        <h4>Карбоновый пилинг & фотоомоложение</h4>
+        <p>Восстановление сияния и текстуры кожи — быстро и заметно.</p>
+      </div>
+    </div>
+
+    <div class="svc">
+      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3v18" stroke="#007f7f" stroke-width="1.6"/><path d="M3 12h18" stroke="#00c1bf" stroke-width="1.6"/></svg></div>
+      <div>
+        <h4>Удаление пигментации</h4>
+        <p>Точные параметры лазера для безопасного удаления участков пигментации.</p>
+      </div>
+    </div>
+
+    <div class="svc">
+      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="#007f7f" stroke-width="1.6"/><path d="M6 20c2-5 10-5 14 0" stroke="#00c1bf" stroke-width="1.6"/></svg></div>
+      <div>
+        <h4>RF-лифтинг</h4>
+        <p>Неинвазивная подтяжка и улучшение контуров лица и тела.</p>
+      </div>
+    </div>
+
+    <div class="svc">
+      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z" stroke="#007f7f" stroke-width="1.4" fill="rgba(0,193,191,0.06)"/></svg></div>
+      <div>
+        <h4>Персональные консультации</h4>
+        <p>Индивидуальный план процедур, сопровождение и домашний уход.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About (polished) -->
+<section id="about" class="section" aria-labelledby="aboutTitle" style="margin-top:12px">
+  <div class="about" role="region">
+    <div class="about-left card" aria-hidden="true">
+      <div class="about-bg">
+        <!-- high-detailed butterfly vector (decorative) -->
+        <svg class="butterfly-illustration" viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="butterflyG" x1="0" x2="1"><stop offset="0" stop-color="#bff6f6"/><stop offset="1" stop-color="#00c0c0"/></linearGradient>
+            <filter id="softBlur"><feGaussianBlur stdDeviation="6" result="b"/><feBlend in="SourceGraphic" in2="b"/></filter>
+          </defs>
+          <g transform="translate(190,140) scale(0.9)" filter="url(#softBlur)">
+            <!-- left wing -->
+            <path d="M-120 0C-160 -40 -160 -100 -120 -120C-80 -140 -40 -110 0 -100C-40 -70 -80 -60 -120 0z" fill="url(#butterflyG)" opacity="0.98"/>
+            <!-- right wing -->
+            <path d="M120 0C160 -40 160 -100 120 -120C80 -140 40 -110 0 -100C40 -70 80 -60 120 0z" fill="#fff" opacity="0.12"/>
+            <!-- body -->
+            <ellipse cx="0" cy="0" rx="10" ry="24" fill="#007f7f"/>
+            <!-- lace pattern (subtle) -->
+            <g fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2">
+              <path d="M-80 -40c10 8 30 12 60 8"/>
+              <path d="M80 -40c-10 8 -30 12 -60 8"/>
+              <circle cx="-40" cy="-10" r="6"/>
+              <circle cx="40" cy="-10" r="6"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="about-right" role="article">
+      <h2 id="aboutTitle">О нас</h2>
+      <p><strong>Melissa</strong> — студия, где современная лазерная технология сочетается с тщательной заботой о клиенте. Каждый протокол проводится с учётом состояния кожи и желаемого результата.</p>
+      <p>Мы применяем сертифицированное оборудование и щадящие методики, чтобы вы чувствовали комфорт и были уверены в результате. Наша команда — профессионалы с опытом и вниманием к деталям.</p>
+
+      <div class="microlist" aria-hidden="false">
+        <div class="microtag">Индивидуальный протокол</div>
+        <div class="microtag">Стерильность & безопасность</div>
+        <div class="microtag">Сертифицированные аппараты</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Prices -->
+<section id="prices" class="section" aria-labelledby="pricesTitle">
+  <h2 id="pricesTitle" style="font-family:Playfair Display;margin:0 0 16px;font-size:26px">Прайс-лист (выдержка)</h2>
+  <div class="prices-grid" style="margin-bottom:12px">
+    <div class="price-card">
+      <h5>Лазерная эпиляция</h5>
+      <ul class="price-list">
+        <li><span>Верхняя губа</span><strong>350 р.</strong></li>
+        <li><span>Подбородок</span><strong>400 р.</strong></li>
+        <li><span>Щёки</span><strong>500 р.</strong></li>
+        <li><span>Бикини неглубокое</span><strong>1200 р.</strong></li>
+        <li><span>Бикини глубокое</span><strong>2000 р.</strong></li>
+      </ul>
+    </div>
+
+    <div class="price-card">
+      <h5>Удаление татуажа / татуировки</h5>
+      <ul class="price-list">
+        <li><span>Губы</span><strong>1800 р.</strong></li>
+        <li><span>Брови</span><strong>1800 р.</strong></li>
+        <li><span>Стрелки</span><strong>1800 р.</strong></li>
+      </ul>
+    </div>
+
+    <div class="price-card">
+      <h5>RF / Фотоомоложение</h5>
+      <ul class="price-list">
+        <li><span>Лицо</span><strong>1400 р.</strong></li>
+        <li><span>Лицо + шея</span><strong>2300 р.</strong></li>
+        <li><span>Карбоновый пилинг (лицо)</span><strong>2000 р.</strong></li>
+      </ul>
+    </div>
+  </div>
+  <p style="color:var(--muted); font-size:14px">Полный прайс и акции сообщаются в студии — звоните или записывайтесь онлайн.</p>
+</section>
+
+<!-- Booking -->
+<section id="booking" class="section" aria-labelledby="bookingSection">
+  <h2 id="bookingSection" style="font-family:Playfair Display;margin:0 0 12px;font-size:26px">Запись онлайн</h2>
+  <div class="booking-wrap">
+    <form id="bookForm" class="form-card" onsubmit="return submitForm(event)" aria-label="Форма записи">
+      <div style="display:flex; gap:12px; align-items:center; margin-bottom:8px">
+        <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(180deg,#eaffff,#baf7f7); display:grid; place-items:center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M2 16.5C2 14 8 11 12 11s10 3 10 5.5V21H2v-4.5z" stroke="#007f7f" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <div style="font-weight:700">Быстрая заявка</div>
+          <div style="font-size:13px;color:var(--muted)">Заполните форму — подтвердим время по телефону</div>
+        </div>
+      </div>
+
+      <div class="field"><label for="name">Имя</label><input id="name" name="name" required placeholder="Ваше имя"></div>
+      <div class="field"><label for="phone">Телефон</label><input id="phone" name="phone" required placeholder="+7 9..." pattern="^\+?\d[\d\s-]{7,}$"></div>
+      <div class="field"><label for="service">Услуга</label>
+        <select id="service" name="service">
+          <option>Лазерная эпиляция</option>
+          <option>Удаление татуажа / татуировок</option>
+          <option>Карбоновый пилинг</option>
+          <option>Удаление пигментации</option>
+          <option>RF-лифтинг</option>
+          <option>Фотоомоложение</option>
+        </select>
+      </div>
+      <div class="field"><label for="date">Предпочтительная дата и время</label><input id="date" name="date" type="datetime-local"></div>
+      <div class="field"><label for="note">Комментарий</label><textarea id="note" name="note" rows="3" placeholder="Ваши пожелания (необязательно)"></textarea></div>
+
+      <div style="display:flex; gap:12px; margin-top:6px">
+        <button class="btn-primary btn-wide" type="submit">Отправить заявку</button>
+      </div>
+
+      <div id="formMsg" style="margin-top:12px;color:var(--muted); font-size:14px" role="status" aria-live="polite"></div>
+    </form>
+
+    <aside class="card" aria-labelledby="contactsAsideTitle">
+      <h3 id="contactsAsideTitle" style="font-family:Playfair Display;margin:0 0 8px">Контакты</h3>
+      <p style="margin:0; color:var(--muted)">📍 г. Макеевка, бульвар Горбачёва, 32 — ТЦ "Рандеву", 3 этаж</p>
+      <p style="margin:10px 0 0">📞 <a href="tel:+79493225474">+7 949 322 5474</a></p>
+      <p style="margin-top:12px; color:var(--muted)"><strong>Часы:</strong> Пн–Сб 9:00–19:00</p>
+      <div style="margin-top:18px"><a class="btn-primary btn-wide" href="tel:+79493225474">Заказать звонок</a></div>
+    </aside>
+  </div>
+</section>
+
+<!-- Contacts & Map -->
+<section id="contacts" class="section" aria-labelledby="contactsTitle">
+  <h2 id="contactsTitle" style="font-family:Playfair Display;margin:0 0 12px">Как добраться</h2>
+  <div style="display:grid; grid-template-columns: 1fr 420px; gap:18px">
+    <div class="card">
+      <p style="color:var(--muted); margin:0 0 8px">Мы на 3 этаже ТЦ "Рандеву". Удобная парковка и остановки рядом.</p>
+      <p style="margin:0 0 10px"><strong>Телефон</strong>: <a href="tel:+79493225474">+7 949 322 5474</a></p>
+      <p style="margin:0; color:var(--muted)">При необходимости поможем подобрать удобное время и программу.</p>
+    </div>
+
+    <div style="border-radius:12px; overflow:hidden; box-shadow:0 8px 28px rgba(0,0,0,0.06)">
+      <!-- Replace placeholder with real Yandex/Google map iframe when ready -->
+      <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Aplaceholder&source=constructor" style="border:0;width:100%;height:100%;min-height:260px" loading="lazy" title="Карта — Melissa"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="fwrap">
+    <div>© 2025 Melissa — лазерная эстетика лица и тела</div>
+    <div style="color:var(--muted)">Сделано с вниманием к деталям ❤️</div>
+  </div>
+</footer>
+
+<!-- Floating booking button -->
+<div class="floating-book" aria-hidden="false">
+  <button onclick="document.location='#booking'">Записаться</button>
+</div>
+
+<script>
+/* ========================
+   Particles (very subtle, tuned)
+   ======================== */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W = canvas.width = innerWidth, H = canvas.height = innerHeight;
+window.addEventListener('resize', ()=>{ W = canvas.width = innerWidth; H = canvas.height = innerHeight; });
+const dots = [];
+for(let i=0;i<90;i++){
+  dots.push({
+    x: Math.random()*W,
+    y: Math.random()*H,
+    r: Math.random()*1.6 + 0.3,
+    a: Math.random()*0.7 + 0.05,
+    vx: (Math.random()-0.5)*0.25,
+    vy: (Math.random()-0.5)*0.25
+  });
+}
+function pLoop(){
+  ctx.clearRect(0,0,W,H);
+  for(const d of dots){
+    d.x += d.vx; d.y += d.vy;
+    if(d.x < 0) d.x = W; if(d.x>W) d.x = 0; if(d.y<0) d.y=H; if(d.y>H) d.y=0;
+    ctx.globalAlpha = d.a;
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+    ctx.fill();
+  }
+  requestAnimationFrame(pLoop);
+}
+pLoop();
+
+/* ========================
+   GSAP animations (polish)
+   ======================== */
+window.addEventListener('load', ()=>{
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from('.title',{y:26, opacity:0, duration:0.9, ease:'power3.out'});
+  gsap.from('.lede',{y:16, opacity:0, duration:1, delay:0.12});
+  gsap.from('.hero-card',{y:12, opacity:0, duration:1, delay:0.18, ease:'power3.out'});
+
+  gsap.utils.toArray('.svc').forEach((el,i)=>{
+    gsap.from(el,{y:18, opacity:0, duration:0.8, delay:0.08*i, ease:'power3.out', scrollTrigger: {trigger: el, start:'top 85%'}});
+  });
+
+  gsap.from('.about-left',{scale:.98, opacity:0, duration:1, ease:'power3.out', scrollTrigger:{trigger:'.about-left', start:'top 80%'}});
+  gsap.from('.about-right',{y:30, opacity:0, duration:1, delay:0.12, scrollTrigger:{trigger:'.about-right', start:'top 85%'}});
+
+  gsap.utils.toArray('.price-card').forEach((el,i)=>gsap.from(el,{y:20, opacity:0, duration:0.8, delay:0.06*i, scrollTrigger:{trigger:el, start:'top 90%'}}));
+
+  // subtle butterfly sway (selects element by class)
+  gsap.to('.butterfly-illustration', {rotation:4, y:6, duration:1.6, yoyo:true, repeat:-1, ease:'sine.inOut', transformOrigin:'50% 50%'});
+});
+
+/* ========================
+   Form handling
+   ======================== */
+function submitForm(e){
+  e.preventDefault();
+  const f = document.getElementById('bookForm');
+  const name = f.name.value.trim();
+  const phone = f.phone.value.trim();
+  if(!name || !phone){
+    document.getElementById('formMsg').textContent = 'Пожалуйста, заполните имя и телефон.';
+    return false;
+  }
+  // show success modal-like microcopy
+  document.getElementById('formMsg').textContent = 'Спасибо! Заявка принята — мы перезвоним для подтверждения.';
+  // in production: send via fetch/XHR to server or integrate with Telegram/email API
+  f.reset();
+  return false;
+}
+
+/* ========================
+   small helper
+   ======================== */
+function scrollToBooking(){ document.querySelector('#booking').scrollIntoView({behavior:'smooth', block:'start'}); }
+
+/* ========================
+   Accessibility: focus ring when keyboard nav detected
+   ======================== */
+document.addEventListener('keydown', e=>{ if(e.key === 'Tab') document.body.classList.add('show-focus'); });
+
+</script>
+</body>
+</html>
