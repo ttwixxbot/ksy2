@@ -1,545 +1,796 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Melissa — Лазерная эстетика лица и тела</title>
-<meta name="description" content="Студия Melissa — лазерная эстетика лица и тела. Запись онлайн: +7 949 322 5474" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MELISSA | Студия лазерной эстетики</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- GSAP (animations) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js" defer></script>
+    <style>
+        :root {
+            --color-tiffany-dark: #004D40;
+            --color-tiffany-main: #00897B;
+            --color-tiffany-light: #4DB6AC;
+            --color-tiffany-neon: #80CBC4;
+            --color-glass: rgba(255, 255, 255, 0.08);
+            --color-glass-border: rgba(255, 255, 255, 0.15);
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Manrope', sans-serif;
+        }
 
-<style>
-  /* -------------------------
-     Design tokens (carefully tuned)
-     -------------------------*/
-  :root{
-    --bg-1: #f2ffff;
-    --bg-2: #dffafa;
-    --accent-1: #00c1bf;
-    --accent-2: #007f7f;
-    --muted: #687a7a;
-    --text: #0b2b2b;
-    --glass: rgba(255,255,255,0.20);
-    --card: rgba(255,255,255,0.6);
-    --maxW: 1180px;
-    --radius-lg: 24px;
-    --radius-md: 14px;
-    --shadow-soft: 0 12px 40px rgba(0,115,115,0.12);
-    --easing: cubic-bezier(.22,.9,.32,1);
-    --space: 18px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%; margin:0; font-family:Inter,system-ui,Segoe UI,Arial; color:var(--text); -webkit-font-smoothing:antialiased; background:linear-gradient(160deg,var(--bg-1),var(--bg-2));}
-  a{text-decoration:none; color:inherit}
-  img{max-width:100%; display:block}
+        body {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
 
-  /* -------------------------
-     Header
-     -------------------------*/
-  header{
-    position:fixed; top:16px; left:0; right:0; z-index:1200; pointer-events:none;
-    display:flex; justify-content:center;
-  }
-  .navwrap{pointer-events:auto; width:min(94%, var(--maxW)); display:flex; align-items:center; justify-content:space-between; gap:12px; background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55)); padding:12px 18px; border-radius:14px; box-shadow:0 6px 24px rgba(0,0,0,0.06); backdrop-filter: blur(6px); border:1px solid rgba(255,255,255,0.6)}
-  .brand{display:flex; gap:12px; align-items:center}
-  .brand .logo{width:52px;height:52px; display:grid; place-items:center; border-radius:12px; background:linear-gradient(135deg,#e0ffff,#baf7f7); box-shadow:inset 0 -6px 18px rgba(0,0,0,0.04);}
-  .brand h1{font-family:Playfair Display, serif; margin:0; font-size:18px; line-height:1; color:var(--text)}
-  .brand p{margin:0; color:var(--muted); font-size:12px}
+        /* --- Canvas Background --- */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(160deg, #022c28 0%, #004d40 100%);
+        }
 
-  nav ul{display:flex; gap:14px; align-items:center; margin:0; padding:0; list-style:none}
-  nav a{font-weight:600; font-size:14px; color:var(--muted); padding:8px 10px; border-radius:12px}
-  nav a:hover{color:var(--accent-2); background:rgba(0,0,0,0.02)}
+        /* --- Typography --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+        }
 
-  .phone-cta{background:linear-gradient(180deg,var(--accent-1),var(--accent-2)); color:white; padding:10px 14px; border-radius:14px; box-shadow:0 10px 30px rgba(0,140,140,0.15); font-weight:700; display:flex; gap:8px; align-items:center}
+        .text-gradient {
+            background: linear-gradient(90deg, #ffffff, var(--color-tiffany-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-  /* -------------------------
-     Hero — meticulously crafted
-     -------------------------*/
-  .hero{
-    width:min(96%, var(--maxW)); margin:120px auto 36px; display:grid; grid-template-columns: 1fr 420px; gap:34px; align-items:center;
-  }
-  .hero-left{padding:18px 6px}
-  .eyebrow{display:inline-block; font-weight:700; color:var(--accent-2); letter-spacing:0.8px; font-size:13px; margin-bottom:12px}
-  .title{
-    font-family:Playfair Display, serif; font-size:48px; line-height:1.02; margin:0 0 16px; color:var(--text);
-    text-shadow: 0 6px 18px rgba(0,140,140,0.06);
-  }
-  .lede{color:var(--muted); font-size:17px; line-height:1.7; max-width:60ch}
-  .hero-actions{display:flex; gap:14px; margin-top:20px}
-  .btn-primary{background:linear-gradient(180deg,var(--accent-1),var(--accent-2)); color:white; padding:12px 18px; border-radius:14px; border:none; cursor:pointer; font-weight:700; box-shadow:0 10px 32px rgba(0,120,120,0.16); transition:transform .22s var(--easing)}
-  .btn-primary:hover{transform:translateY(-4px)}
-  .btn-ghost{padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.06); background:transparent; color:var(--muted); font-weight:600}
+        /* --- Glassmorphism --- */
+        .glass-panel {
+            background: var(--color-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--color-glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
 
-  /* Hero right card — depth, glass, microcopy */
-  .hero-card{
-    background:linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.65));
-    border-radius:20px; padding:22px; box-shadow:var(--shadow-soft); position:relative; overflow:hidden;
-    border:1px solid rgba(255,255,255,0.5);
-  }
-  .hero-card h3{margin:0 0 6px; font-family:Playfair Display; font-size:20px}
-  .hero-card p{margin:0; color:var(--muted); font-size:14px}
-  .hero-card .phone{margin-top:12px; display:flex; gap:10px; align-items:center; font-weight:700; color:var(--accent-2)}
-  .hero-card .small{font-size:13px;color:var(--muted); margin-top:8px}
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+        }
 
-  /* -------------------------
-     Section separators & containers
-     -------------------------*/
-  .section{width:min(96%, var(--maxW)); margin:48px auto; padding:8px 6px}
-  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
-  .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:18px}
-  .card{background:var(--card); border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,0.04)}
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--color-tiffany-light);
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(77, 182, 172, 0.2);
+        }
 
-  /* -------------------------
-     Services — refined cards
-     -------------------------*/
-  .svc{background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45)); border-radius:14px; padding:20px; transition:transform .35s var(--easing), box-shadow .35s var(--easing); display:flex; gap:14px; align-items:flex-start}
-  .svc:hover{transform:translateY(-8px); box-shadow:0 18px 46px rgba(0,120,120,0.12)}
-  .svc .icon{width:56px;height:56px; border-radius:12px; display:grid; place-items:center; background:linear-gradient(135deg,#eaffff,#baf7f7); box-shadow:inset 0 -6px 14px rgba(0,0,0,0.04)}
-  .svc h4{margin:0 0 6px; font-family:Playfair Display; font-size:18px}
-  .svc p{margin:0; color:var(--muted)}
+        /* --- Buttons --- */
+        .btn-primary {
+            position: relative;
+            background: linear-gradient(135deg, var(--color-tiffany-main), var(--color-tiffany-dark));
+            color: white;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 137, 123, 0.4);
+        }
 
-  /* -------------------------
-     About section — detailed polish
-     -------------------------*/
-  .about{display:grid; grid-template-columns: 1fr 1fr; gap:26px; align-items:center}
-  .about-left{position:relative; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-soft); min-height:320px}
-  .about-bg{
-    width:100%; height:100%; background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.22), transparent 8%),
-    linear-gradient(135deg,#a8f6f6 0%, #00c0c0 100%);
-    padding:28px; display:flex; align-items:center; justify-content:center;
-  }
-  /* decorative detailed butterfly: vector with subtle inner pattern */
-  .butterfly-illustration{max-width:320px; filter:drop-shadow(0 18px 40px rgba(0,0,0,0.16))}
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
 
-  .about-right{background:var(--glass); backdrop-filter:blur(8px); padding:28px; border-radius:18px; box-shadow:0 8px 30px rgba(0,0,0,0.06)}
-  .about-right h2{font-family:Playfair Display; margin:0 0 10px; font-size:30px}
-  .about-right p{color:var(--muted); line-height:1.7; margin:0 0 12px}
-  .microlist{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px}
-  .microtag{background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3)); padding:8px 12px; border-radius:999px; font-weight:600; color:var(--accent-2); font-size:13px; box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+        .btn-primary:hover::before {
+            left: 100%;
+        }
 
-  /* -------------------------
-     Prices — compact & readable
-     -------------------------*/
-  .prices-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
-  .price-card{background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75)); border-radius:12px; padding:18px; border:1px solid rgba(0,0,0,0.03)}
-  .price-card h5{margin:0 0 10px; font-family:Playfair Display; font-size:16px}
-  .price-list{list-style:none; margin:0; padding:0}
-  .price-list li{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed rgba(0,0,0,0.04); color:var(--muted); font-size:14px}
+        .btn-primary:hover {
+            box-shadow: 0 0 25px rgba(0, 137, 123, 0.6);
+            transform: scale(1.02);
+        }
 
-  /* -------------------------
-     Booking form — modal confirmation and nicer inputs
-     -------------------------*/
-  .booking-wrap{display:grid; grid-template-columns: 1fr 380px; gap:22px; align-items:start}
-  .form-card{background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78)); padding:18px; border-radius:12px; box-shadow:0 10px 36px rgba(0,0,0,0.06)}
-  .field{display:flex; flex-direction:column; gap:8px; margin-bottom:12px}
-  label{font-size:13px; color:var(--muted)}
-  input, select, textarea{padding:12px; border-radius:10px; border:1px solid rgba(0,0,0,0.06); font-size:15px; outline:none}
-  input:focus, select:focus, textarea:focus{box-shadow:0 6px 24px rgba(0,160,160,0.09); border-color:var(--accent-1)}
-  .btn-wide{display:inline-block; width:100%; text-align:center}
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
 
-  /* -------------------------
-     Footer & floating CTA
-     -------------------------*/
-  footer{margin-top:42px; padding:28px 0; border-top:1px solid rgba(0,0,0,0.04); color:var(--muted)}
-  .fwrap{width:min(96%, var(--maxW)); margin:0 auto; display:flex; justify-content:space-between; align-items:center}
-  .floating-book{position:fixed; right:18px; bottom:18px; z-index:1300}
-  .floating-book button{background:linear-gradient(180deg,var(--accent-1),var(--accent-2)); color:white; border-radius:999px; padding:14px 18px; border:none; box-shadow:0 16px 46px rgba(0,120,120,0.16); font-weight:700}
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-  /* -------------------------
-     Responsive tweaks
-     -------------------------*/
-  @media (max-width:980px){
-    .hero{grid-template-columns:1fr; gap:18px; margin-top:130px}
-    .about{grid-template-columns:1fr; gap:18px}
-    .prices-grid{grid-template-columns:repeat(2,1fr)}
-    .booking-wrap{grid-template-columns:1fr}
-    nav ul{display:none}
-  }
-  @media (max-width:560px){
-    .prices-grid{grid-template-columns:1fr}
-    .title{font-size:34px}
-    .brand h1{font-size:16px}
-  }
+        .word-anim span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(10px);
+            animation: fadeUp 0.8s forwards;
+        }
 
-  /* subtle focus outlines for accessibility */
-  :focus{outline:2px solid rgba(0,200,200,0.12); outline-offset:2px}
-</style>
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        .butterfly-container {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+
+        /* --- Accordion & Price Interactions --- */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .accordion-icon {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .accordion-btn[aria-expanded="true"] .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-btn[aria-expanded="true"] {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--color-tiffany-light);
+            box-shadow: 0 0 15px rgba(77, 182, 172, 0.1);
+        }
+
+        /* New Price Row Hover Effects */
+        .price-row {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid transparent;
+        }
+
+        .price-row:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(128, 203, 196, 0.3);
+            padding-left: 1.25rem; /* Slide effect */
+        }
+
+        .price-action-btn {
+            position: absolute;
+            right: -120px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+
+        .price-row:hover .price-action-btn {
+            right: 1rem;
+            opacity: 1;
+        }
+        
+        .price-row:hover .price-text {
+            color: var(--color-tiffany-neon);
+        }
+
+        /* Hide price value on hover on small screens if it overlaps, 
+           or keep it visible but move it. We'll handle this layout flex-wise. */
+        
+        .price-value {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .price-row:hover .price-value {
+            transform: translateX(-100px);
+            opacity: 0; /* Fade out price to show button on hover for clean look */
+        }
+        @media (min-width: 768px) {
+            .price-row:hover .price-value {
+                 transform: translateX(-110px);
+                 opacity: 1; /* On desktop keep price visible but move it */
+            }
+        }
+
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #00251f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-tiffany-main);
+            border-radius: 4px;
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased selection:bg-teal-500 selection:text-white">
 
-<!-- subtle particles (canvas) -->
-<canvas id="particles" aria-hidden="true" style="position:fixed; inset:0; z-index:0; pointer-events:none"></canvas>
+    <!-- Canvas Background -->
+    <canvas id="canvas-bg"></canvas>
 
-<!-- Header -->
-<header>
-  <div class="navwrap" role="banner">
-    <div class="brand">
-      <div class="logo" aria-hidden="true">
-        <!-- refined mini-symbol -->
-        <svg viewBox="0 0 64 64" width="36" height="36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="lg1" x1="0" x2="1"><stop offset="0" stop-color="#e6ffff"/><stop offset="1" stop-color="#aef6f6"/></linearGradient>
-          </defs>
-          <rect x="6" y="6" width="52" height="52" rx="10" fill="url(#lg1)"/>
-          <g transform="translate(16,14)" fill="#007f7f" opacity="0.95">
-            <path d="M16 4c-8 0-12 8-12 12s3 8 12 12 12-6 12-12S24 4 16 4z"/>
-          </g>
-        </svg>
-      </div>
-      <div>
-        <h1>Melissa</h1>
-        <p>лазерная эстетика лица и тела</p>
-      </div>
-    </div>
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 top-0" id="navbar">
+        <div class="glass-panel border-t-0 border-l-0 border-r-0 rounded-b-2xl mx-2 mt-2 lg:mx-8 lg:mt-4">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#" class="text-2xl lg:text-3xl font-serif italic text-white tracking-wider z-50">
+                    Melissa
+                    <span class="text-teal-400 text-sm block not-italic font-sans tracking-widest uppercase text-xs">Laser Aesthetics</span>
+                </a>
 
-    <nav role="navigation" aria-label="Main">
-      <ul>
-        <li><a href="#services">Услуги</a></li>
-        <li><a href="#prices">Цены</a></li>
-        <li><a href="#about">О нас</a></li>
-        <li><a href="#contacts">Контакты</a></li>
-      </ul>
-    </nav>
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex items-center gap-8">
+                    <a href="#services" class="text-sm uppercase tracking-widest hover:text-teal-300 transition-colors">Услуги</a>
+                    <a href="#about" class="text-sm uppercase tracking-widest hover:text-teal-300 transition-colors">О нас</a>
+                    <a href="#price" class="text-sm uppercase tracking-widest hover:text-teal-300 transition-colors">Прайс</a>
+                    <a href="#contact" class="text-sm uppercase tracking-widest hover:text-teal-300 transition-colors">Контакты</a>
+                </nav>
 
-    <div style="display:flex; gap:12px; align-items:center">
-      <a class="phone-cta" href="tel:+79493225474" aria-label="Позвонить в Melissa">📞 +7 949 322 5474</a>
-    </div>
-  </div>
-</header>
+                <div class="hidden lg:block">
+                    <a href="#contact" class="btn-primary px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wide">
+                        Записаться онлайн
+                    </a>
+                </div>
 
-<!-- Hero -->
-<section class="hero" role="region" aria-labelledby="heroTitle">
-  <div class="hero-left">
-    <div class="eyebrow">Студия премиальной лазерной эстетики</div>
-    <h1 id="heroTitle" class="title">Красота, созданная технологией и вниманием к деталям</h1>
-    <p class="lede">Melissa — современная студия лазерной эстетики лица и тела. Персональные программы, деликатные методики и комфортные условия — результат, который заметен и сохраняется.</p>
-    <div class="hero-actions" role="toolbar" aria-label="Действия">
-      <button class="btn-primary" onclick="document.location='#booking'">Записаться онлайн</button>
-      <a class="btn-ghost" href="#prices" role="button">Посмотреть прайс</a>
-    </div>
-  </div>
-
-  <aside class="hero-card" aria-labelledby="bookingTitle">
-    <h3 id="bookingTitle">Быстрая запись</h3>
-    <div class="phone">📞 <a href="tel:+79493225474">+7 949 322 5474</a></div>
-    <p class="small">ТЦ "Рандеву", 3 этаж, студия Melissa — у нас уютно, стерильно и по-заботливому.</p>
-    <div style="margin-top:12px">
-      <strong style="display:block">Режим работы</strong>
-      <span style="color:var(--muted)">Пн–Сб 9:00–19:00</span>
-    </div>
-    <div style="margin-top:14px">
-      <button class="btn-primary btn-wide" onclick="document.getElementById('name').focus(); scrollToBooking()">Записаться сейчас</button>
-    </div>
-  </aside>
-</section>
-
-<!-- Services -->
-<section id="services" class="section" aria-labelledby="servicesTitle">
-  <h2 id="servicesTitle" style="font-family:Playfair Display;margin:0 0 16px;font-size:26px">Услуги</h2>
-  <div class="grid-3">
-    <div class="svc" aria-hidden="false">
-      <div class="icon" aria-hidden="true">
-        <!-- subtle laser icon -->
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M2 12h20" stroke="#007f7f" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke="#00c1bf" stroke-width="1.6"/></svg>
-      </div>
-      <div>
-        <h4>Лазерная эпиляция</h4>
-        <p>Безопасная и быстрая эпиляция на современном оборудовании — гладкость надолго.</p>
-      </div>
-    </div>
-
-    <div class="svc">
-      <div class="icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 20l4-8 8-8" stroke="#007f7f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div>
-        <h4>Удаление татуажа и татуировок</h4>
-        <p>Деликатный подход: точечное удаление и коррекция цвета специалистами.</p>
-      </div>
-    </div>
-
-    <div class="svc">
-      <div class="icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#007f7f" stroke-width="1.6"/><path d="M8 12h8" stroke="#00c1bf" stroke-width="1.6"/></svg>
-      </div>
-      <div>
-        <h4>Карбоновый пилинг & фотоомоложение</h4>
-        <p>Восстановление сияния и текстуры кожи — быстро и заметно.</p>
-      </div>
-    </div>
-
-    <div class="svc">
-      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3v18" stroke="#007f7f" stroke-width="1.6"/><path d="M3 12h18" stroke="#00c1bf" stroke-width="1.6"/></svg></div>
-      <div>
-        <h4>Удаление пигментации</h4>
-        <p>Точные параметры лазера для безопасного удаления участков пигментации.</p>
-      </div>
-    </div>
-
-    <div class="svc">
-      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="#007f7f" stroke-width="1.6"/><path d="M6 20c2-5 10-5 14 0" stroke="#00c1bf" stroke-width="1.6"/></svg></div>
-      <div>
-        <h4>RF-лифтинг</h4>
-        <p>Неинвазивная подтяжка и улучшение контуров лица и тела.</p>
-      </div>
-    </div>
-
-    <div class="svc">
-      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z" stroke="#007f7f" stroke-width="1.4" fill="rgba(0,193,191,0.06)"/></svg></div>
-      <div>
-        <h4>Персональные консультации</h4>
-        <p>Индивидуальный план процедур, сопровождение и домашний уход.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- About (polished) -->
-<section id="about" class="section" aria-labelledby="aboutTitle" style="margin-top:12px">
-  <div class="about" role="region">
-    <div class="about-left card" aria-hidden="true">
-      <div class="about-bg">
-        <!-- high-detailed butterfly vector (decorative) -->
-        <svg class="butterfly-illustration" viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="butterflyG" x1="0" x2="1"><stop offset="0" stop-color="#bff6f6"/><stop offset="1" stop-color="#00c0c0"/></linearGradient>
-            <filter id="softBlur"><feGaussianBlur stdDeviation="6" result="b"/><feBlend in="SourceGraphic" in2="b"/></filter>
-          </defs>
-          <g transform="translate(190,140) scale(0.9)" filter="url(#softBlur)">
-            <!-- left wing -->
-            <path d="M-120 0C-160 -40 -160 -100 -120 -120C-80 -140 -40 -110 0 -100C-40 -70 -80 -60 -120 0z" fill="url(#butterflyG)" opacity="0.98"/>
-            <!-- right wing -->
-            <path d="M120 0C160 -40 160 -100 120 -120C80 -140 40 -110 0 -100C40 -70 80 -60 120 0z" fill="#fff" opacity="0.12"/>
-            <!-- body -->
-            <ellipse cx="0" cy="0" rx="10" ry="24" fill="#007f7f"/>
-            <!-- lace pattern (subtle) -->
-            <g fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2">
-              <path d="M-80 -40c10 8 30 12 60 8"/>
-              <path d="M80 -40c-10 8 -30 12 -60 8"/>
-              <circle cx="-40" cy="-10" r="6"/>
-              <circle cx="40" cy="-10" r="6"/>
-            </g>
-          </g>
-        </svg>
-      </div>
-    </div>
-
-    <div class="about-right" role="article">
-      <h2 id="aboutTitle">О нас</h2>
-      <p><strong>Melissa</strong> — студия, где современная лазерная технология сочетается с тщательной заботой о клиенте. Каждый протокол проводится с учётом состояния кожи и желаемого результата.</p>
-      <p>Мы применяем сертифицированное оборудование и щадящие методики, чтобы вы чувствовали комфорт и были уверены в результате. Наша команда — профессионалы с опытом и вниманием к деталям.</p>
-
-      <div class="microlist" aria-hidden="false">
-        <div class="microtag">Индивидуальный протокол</div>
-        <div class="microtag">Стерильность & безопасность</div>
-        <div class="microtag">Сертифицированные аппараты</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Prices -->
-<section id="prices" class="section" aria-labelledby="pricesTitle">
-  <h2 id="pricesTitle" style="font-family:Playfair Display;margin:0 0 16px;font-size:26px">Прайс-лист (выдержка)</h2>
-  <div class="prices-grid" style="margin-bottom:12px">
-    <div class="price-card">
-      <h5>Лазерная эпиляция</h5>
-      <ul class="price-list">
-        <li><span>Верхняя губа</span><strong>350 р.</strong></li>
-        <li><span>Подбородок</span><strong>400 р.</strong></li>
-        <li><span>Щёки</span><strong>500 р.</strong></li>
-        <li><span>Бикини неглубокое</span><strong>1200 р.</strong></li>
-        <li><span>Бикини глубокое</span><strong>2000 р.</strong></li>
-      </ul>
-    </div>
-
-    <div class="price-card">
-      <h5>Удаление татуажа / татуировки</h5>
-      <ul class="price-list">
-        <li><span>Губы</span><strong>1800 р.</strong></li>
-        <li><span>Брови</span><strong>1800 р.</strong></li>
-        <li><span>Стрелки</span><strong>1800 р.</strong></li>
-      </ul>
-    </div>
-
-    <div class="price-card">
-      <h5>RF / Фотоомоложение</h5>
-      <ul class="price-list">
-        <li><span>Лицо</span><strong>1400 р.</strong></li>
-        <li><span>Лицо + шея</span><strong>2300 р.</strong></li>
-        <li><span>Карбоновый пилинг (лицо)</span><strong>2000 р.</strong></li>
-      </ul>
-    </div>
-  </div>
-  <p style="color:var(--muted); font-size:14px">Полный прайс и акции сообщаются в студии — звоните или записывайтесь онлайн.</p>
-</section>
-
-<!-- Booking -->
-<section id="booking" class="section" aria-labelledby="bookingSection">
-  <h2 id="bookingSection" style="font-family:Playfair Display;margin:0 0 12px;font-size:26px">Запись онлайн</h2>
-  <div class="booking-wrap">
-    <form id="bookForm" class="form-card" onsubmit="return submitForm(event)" aria-label="Форма записи">
-      <div style="display:flex; gap:12px; align-items:center; margin-bottom:8px">
-        <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(180deg,#eaffff,#baf7f7); display:grid; place-items:center">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M2 16.5C2 14 8 11 12 11s10 3 10 5.5V21H2v-4.5z" stroke="#007f7f" stroke-width="1.5"/></svg>
+                <!-- Mobile Hamburger -->
+                <button class="lg:hidden z-50 text-white" id="mobile-menu-btn">
+                    <i data-lucide="menu" class="w-8 h-8"></i>
+                </button>
+            </div>
         </div>
-        <div>
-          <div style="font-weight:700">Быстрая заявка</div>
-          <div style="font-size:13px;color:var(--muted)">Заполните форму — подтвердим время по телефону</div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div class="fixed inset-0 bg-black/95 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center gap-8" id="mobile-menu">
+            <a href="#services" class="mobile-link text-2xl font-serif italic text-white">Услуги</a>
+            <a href="#about" class="mobile-link text-2xl font-serif italic text-white">О нас</a>
+            <a href="#price" class="mobile-link text-2xl font-serif italic text-white">Прайс</a>
+            <a href="#contact" class="mobile-link text-2xl font-serif italic text-white">Контакты</a>
+            <a href="#contact" class="mobile-link btn-primary px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wide mt-4">
+                Записаться
+            </a>
         </div>
-      </div>
+    </header>
 
-      <div class="field"><label for="name">Имя</label><input id="name" name="name" required placeholder="Ваше имя"></div>
-      <div class="field"><label for="phone">Телефон</label><input id="phone" name="phone" required placeholder="+7 9..." pattern="^\+?\d[\d\s-]{7,}$"></div>
-      <div class="field"><label for="service">Услуга</label>
-        <select id="service" name="service">
-          <option>Лазерная эпиляция</option>
-          <option>Удаление татуажа / татуировок</option>
-          <option>Карбоновый пилинг</option>
-          <option>Удаление пигментации</option>
-          <option>RF-лифтинг</option>
-          <option>Фотоомоложение</option>
-        </select>
-      </div>
-      <div class="field"><label for="date">Предпочтительная дата и время</label><input id="date" name="date" type="datetime-local"></div>
-      <div class="field"><label for="note">Комментарий</label><textarea id="note" name="note" rows="3" placeholder="Ваши пожелания (необязательно)"></textarea></div>
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl mb-6 leading-tight word-anim" id="hero-title">
+                <!-- Text populated by JS for animation -->
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-light reveal delay-500 tracking-wide">
+                Лазерная эстетика лица и тела. Инновации для вашей безупречности в атмосфере полной релаксации.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center reveal delay-700">
+                <a href="#services" class="btn-primary px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest">
+                    Выбрать услугу
+                </a>
+                <a href="#about" class="px-10 py-4 rounded-full border border-white/20 hover:bg-white/10 transition-all text-sm font-bold uppercase tracking-widest backdrop-blur-sm">
+                    Узнать больше
+                </a>
+            </div>
+        </div>
 
-      <div style="display:flex; gap:12px; margin-top:6px">
-        <button class="btn-primary btn-wide" type="submit">Отправить заявку</button>
-      </div>
+        <!-- Decorative Light effects -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-500/20 rounded-full blur-[120px] pointer-events-none"></div>
+    </section>
 
-      <div id="formMsg" style="margin-top:12px;color:var(--muted); font-size:14px" role="status" aria-live="polite"></div>
-    </form>
+    <!-- Services Section -->
+    <section id="services" class="py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl mb-4 text-gradient italic">Наши Услуги</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-teal-500 to-transparent mx-auto"></div>
+            </div>
 
-    <aside class="card" aria-labelledby="contactsAsideTitle">
-      <h3 id="contactsAsideTitle" style="font-family:Playfair Display;margin:0 0 8px">Контакты</h3>
-      <p style="margin:0; color:var(--muted)">📍 г. Макеевка, бульвар Горбачёва, 32 — ТЦ "Рандеву", 3 этаж</p>
-      <p style="margin:10px 0 0">📞 <a href="tel:+79493225474">+7 949 322 5474</a></p>
-      <p style="margin-top:12px; color:var(--muted)"><strong>Часы:</strong> Пн–Сб 9:00–19:00</p>
-      <div style="margin-top:18px"><a class="btn-primary btn-wide" href="tel:+79493225474">Заказать звонок</a></div>
-    </aside>
-  </div>
-</section>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Service 1 -->
+                <div class="glass-card p-8 rounded-2xl relative group reveal">
+                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl mb-3">Лазерная эпиляция</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Гладкая кожа навсегда. Используем новейший диодный лазер для безболезненного удаления волос на любом фототипе.</p>
+                    </div>
+                </div>
 
-<!-- Contacts & Map -->
-<section id="contacts" class="section" aria-labelledby="contactsTitle">
-  <h2 id="contactsTitle" style="font-family:Playfair Display;margin:0 0 12px">Как добраться</h2>
-  <div style="display:grid; grid-template-columns: 1fr 420px; gap:18px">
-    <div class="card">
-      <p style="color:var(--muted); margin:0 0 8px">Мы на 3 этаже ТЦ "Рандеву". Удобная парковка и остановки рядом.</p>
-      <p style="margin:0 0 10px"><strong>Телефон</strong>: <a href="tel:+79493225474">+7 949 322 5474</a></p>
-      <p style="margin:0; color:var(--muted)">При необходимости поможем подобрать удобное время и программу.</p>
-    </div>
+                <!-- Service 2 -->
+                <div class="glass-card p-8 rounded-2xl relative group reveal delay-100">
+                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
+                            <i data-lucide="scan-face" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl mb-3">Карбоновый пилинг</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Очищение и омоложение. Лазер воздействует на нано-гель, удаляя ороговевшие клетки и сужая поры.</p>
+                    </div>
+                </div>
 
-    <div style="border-radius:12px; overflow:hidden; box-shadow:0 8px 28px rgba(0,0,0,0.06)">
-      <!-- Replace placeholder with real Yandex/Google map iframe when ready -->
-      <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Aplaceholder&source=constructor" style="border:0;width:100%;height:100%;min-height:260px" loading="lazy" title="Карта — Melissa"></iframe>
-    </div>
-  </div>
-</section>
+                <!-- Service 3 -->
+                <div class="glass-card p-8 rounded-2xl relative group reveal delay-200">
+                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
+                            <i data-lucide="eraser" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl mb-3">Удаление тату</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Бесследное удаление неудачного перманента и татуировок без шрамов и ожогов неодимовым лазером.</p>
+                    </div>
+                </div>
 
-<!-- Footer -->
-<footer>
-  <div class="fwrap">
-    <div>© 2025 Melissa — лазерная эстетика лица и тела</div>
-    <div style="color:var(--muted)">Сделано с вниманием к деталям ❤️</div>
-  </div>
-</footer>
+                <!-- Service 4 -->
+                <div class="glass-card p-8 rounded-2xl relative group reveal">
+                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
+                            <i data-lucide="sparkles" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl mb-3">Удаление пигментации</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Ровный тон лица. Устранение веснушек, возрастных пятен и последствий акне.</p>
+                    </div>
+                </div>
 
-<!-- Floating booking button -->
-<div class="floating-book" aria-hidden="false">
-  <button onclick="document.location='#booking'">Записаться</button>
-</div>
+                <!-- Service 5 -->
+                <div class="glass-card p-8 rounded-2xl relative group reveal delay-100">
+                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
+                            <i data-lucide="waves" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl mb-3">RF Лифтинг</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Безоперационная подтяжка лица и тела. Стимуляция выработки коллагена с помощью радиочастот.</p>
+                    </div>
+                </div>
 
-<script>
-/* ========================
-   Particles (very subtle, tuned)
-   ======================== */
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = innerWidth, H = canvas.height = innerHeight;
-window.addEventListener('resize', ()=>{ W = canvas.width = innerWidth; H = canvas.height = innerHeight; });
-const dots = [];
-for(let i=0;i<90;i++){
-  dots.push({
-    x: Math.random()*W,
-    y: Math.random()*H,
-    r: Math.random()*1.6 + 0.3,
-    a: Math.random()*0.7 + 0.05,
-    vx: (Math.random()-0.5)*0.25,
-    vy: (Math.random()-0.5)*0.25
-  });
-}
-function pLoop(){
-  ctx.clearRect(0,0,W,H);
-  for(const d of dots){
-    d.x += d.vx; d.y += d.vy;
-    if(d.x < 0) d.x = W; if(d.x>W) d.x = 0; if(d.y<0) d.y=H; if(d.y>H) d.y=0;
-    ctx.globalAlpha = d.a;
-    ctx.fillStyle = 'white';
-    ctx.beginPath();
-    ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
-    ctx.fill();
-  }
-  requestAnimationFrame(pLoop);
-}
-pLoop();
+                <!-- Service 6 -->
+                <div class="glass-card p-8 rounded-2xl relative group reveal delay-200">
+                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
+                            <i data-lucide="sun" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl mb-3">Фотоомоложение</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Комплексное улучшение качества кожи. Лечение купероза, розацеа и фотостарения.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-/* ========================
-   GSAP animations (polish)
-   ======================== */
-window.addEventListener('load', ()=>{
-  gsap.registerPlugin(ScrollTrigger);
-  gsap.from('.title',{y:26, opacity:0, duration:0.9, ease:'power3.out'});
-  gsap.from('.lede',{y:16, opacity:0, duration:1, delay:0.12});
-  gsap.from('.hero-card',{y:12, opacity:0, duration:1, delay:0.18, ease:'power3.out'});
+    <!-- Why Us Section (Parallax) -->
+    <section id="about" class="py-32 relative overflow-hidden">
+        <!-- Abstract Butterfly SVG Background -->
+        <div class="butterfly-container absolute right-0 top-1/4 w-[500px] h-[500px] transition-transform duration-100 ease-linear" id="parallax-butterfly">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-teal-500 fill-current">
+                <path d="M45.5,-76.3C58.9,-69.3,69.1,-58.3,77.3,-46.3C85.5,-34.3,91.7,-21.3,90.3,-8.8C88.9,3.7,79.9,15.7,71.1,26.9C62.3,38.1,53.7,48.5,43.2,55.8C32.7,63.1,20.3,67.3,7.4,68.9C-5.5,70.5,-18.9,69.5,-31.6,63.9C-44.3,58.3,-56.3,48.1,-65.8,36.2C-75.3,24.3,-82.3,10.7,-81.4,-2.4C-80.5,-15.5,-71.7,-28.1,-61.6,-38.7C-51.5,-49.3,-40.1,-57.9,-28.3,-65.7C-16.5,-73.5,-4.3,-80.5,9.6,-82.1L23.5,-83.7L45.5,-76.3Z" transform="translate(100 100)" style="filter: blur(40px); opacity: 0.6;"/>
+                <path d="M100,100 Q130,50 180,80 Q130,110 100,100 Z M100,100 Q70,50 20,80 Q70,110 100,100 Z" fill="none" stroke="white" stroke-width="0.5" opacity="0.5"/>
+            </svg>
+        </div>
 
-  gsap.utils.toArray('.svc').forEach((el,i)=>{
-    gsap.from(el,{y:18, opacity:0, duration:0.8, delay:0.08*i, ease:'power3.out', scrollTrigger: {trigger: el, start:'top 85%'}});
-  });
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 reveal">
+                    <h2 class="text-4xl md:text-6xl mb-8 italic text-gradient leading-tight">Трансформация <br>начинается здесь</h2>
+                    <p class="text-gray-300 mb-6 text-lg">В студии MELISSA мы объединили медицинскую стерильность с эстетикой премиального SPA. Наши протоколы безопасности соответствуют международным стандартам.</p>
+                    
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="shield-check" class="text-teal-400"></i>
+                            <span>Стерильность и одноразовые расходники</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="microscope" class="text-teal-400"></i>
+                            <span>Сертифицированное диодное оборудование 2024 года</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="heart-handshake" class="text-teal-400"></i>
+                            <span>Специалисты с медицинским образованием</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2 reveal delay-200">
+                    <div class="glass-panel p-2 rounded-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
+                        <!-- Placeholder for Interior Image, generating abstract visual instead -->
+                        <div class="rounded-xl overflow-hidden h-[400px] bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative">
+                            <div class="absolute inset-0 opacity-30">
+                                <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <path d="M0 100 C 20 0 50 0 100 100 Z" fill="url(#grad1)" />
+                                    <defs>
+                                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:rgb(0,77,64);stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:rgb(0,137,123);stop-opacity:1" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <span class="font-serif italic text-3xl text-white/20">Interior Atmosphere</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  gsap.from('.about-left',{scale:.98, opacity:0, duration:1, ease:'power3.out', scrollTrigger:{trigger:'.about-left', start:'top 80%'}});
-  gsap.from('.about-right',{y:30, opacity:0, duration:1, delay:0.12, scrollTrigger:{trigger:'.about-right', start:'top 85%'}});
+    <!-- Price Section (Accordion) -->
+    <section id="price" class="py-24 bg-black/20">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl mb-4 text-white font-serif italic">Прайс-лист</h2>
+                <p class="text-gray-400">Честные цены за безупречный результат</p>
+            </div>
 
-  gsap.utils.toArray('.price-card').forEach((el,i)=>gsap.from(el,{y:20, opacity:0, duration:0.8, delay:0.06*i, scrollTrigger:{trigger:el, start:'top 90%'}}));
+            <div class="space-y-6" id="accordion-container">
+                <!-- JS will generate accordion items here -->
+            </div>
+        </div>
+    </section>
 
-  // subtle butterfly sway (selects element by class)
-  gsap.to('.butterfly-illustration', {rotation:4, y:6, duration:1.6, yoyo:true, repeat:-1, ease:'sine.inOut', transformOrigin:'50% 50%'});
-});
+    <!-- Footer & Contact -->
+    <footer id="contact" class="bg-[#021816] pt-20 pb-10 relative border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                <!-- Info -->
+                <div class="reveal">
+                    <h2 class="text-5xl font-serif italic text-white mb-8">Melissa</h2>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="mt-1 w-10 h-10 rounded-full bg-teal-900/30 flex items-center justify-center text-teal-400 shrink-0">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm uppercase tracking-wider mb-1">Адрес</p>
+                                <p class="text-white text-lg">г. Макеевка, бульвар Горбачева, 32</p>
+                                <p class="text-teal-400">ТЦ Рандеву, 3 этаж</p>
+                            </div>
+                        </div>
 
-/* ========================
-   Form handling
-   ======================== */
-function submitForm(e){
-  e.preventDefault();
-  const f = document.getElementById('bookForm');
-  const name = f.name.value.trim();
-  const phone = f.phone.value.trim();
-  if(!name || !phone){
-    document.getElementById('formMsg').textContent = 'Пожалуйста, заполните имя и телефон.';
-    return false;
-  }
-  // show success modal-like microcopy
-  document.getElementById('formMsg').textContent = 'Спасибо! Заявка принята — мы перезвоним для подтверждения.';
-  // in production: send via fetch/XHR to server or integrate with Telegram/email API
-  f.reset();
-  return false;
-}
+                        <div class="flex items-start gap-4">
+                            <div class="mt-1 w-10 h-10 rounded-full bg-teal-900/30 flex items-center justify-center text-teal-400 shrink-0">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm uppercase tracking-wider mb-1">Телефон</p>
+                                <a href="tel:+79493225474" class="text-white text-2xl font-serif hover:text-teal-300 transition-colors">+7 (949) 322-54-74</a>
+                            </div>
+                        </div>
 
-/* ========================
-   small helper
-   ======================== */
-function scrollToBooking(){ document.querySelector('#booking').scrollIntoView({behavior:'smooth', block:'start'}); }
+                        <div class="flex items-start gap-4">
+                            <div class="mt-1 w-10 h-10 rounded-full bg-teal-900/30 flex items-center justify-center text-teal-400 shrink-0">
+                                <i data-lucide="clock" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm uppercase tracking-wider mb-1">Режим работы</p>
+                                <p class="text-white">Ежедневно: 09:00 - 20:00</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-10">
+                        <a href="tel:+79493225474" class="btn-primary px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest inline-block">
+                            Записаться сейчас
+                        </a>
+                    </div>
+                </div>
 
-/* ========================
-   Accessibility: focus ring when keyboard nav detected
-   ======================== */
-document.addEventListener('keydown', e=>{ if(e.key === 'Tab') document.body.classList.add('show-focus'); });
+                <!-- Stylized Map Card -->
+                <div class="glass-panel p-2 rounded-2xl h-[400px] reveal delay-200 relative overflow-hidden group">
+                    <!-- Since we can't use a real API key without exposure, we create a high-end styled placeholder map -->
+                    <div class="w-full h-full bg-[#051e1c] rounded-xl relative overflow-hidden">
+                        <!-- Map Grid Lines -->
+                        <div class="absolute inset-0" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px;"></div>
+                        
+                        <!-- Streets -->
+                        <div class="absolute top-1/2 left-0 right-0 h-2 bg-[#0a2e2b] -rotate-12 transform translate-y-10"></div>
+                        <div class="absolute top-0 bottom-0 left-1/2 w-3 bg-[#0a2e2b] transform -translate-x-10"></div>
+                        
+                        <!-- Marker -->
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                            <div class="w-4 h-4 bg-teal-400 rounded-full animate-ping absolute"></div>
+                            <div class="w-4 h-4 bg-teal-500 rounded-full border-2 border-white relative z-10 shadow-[0_0_20px_rgba(20,184,166,0.5)]"></div>
+                            <div class="mt-2 bg-white/10 backdrop-blur-md px-3 py-1 rounded text-xs text-white border border-white/10">ТЦ Рандеву</div>
+                        </div>
 
-</script>
+                        <div class="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md p-4 rounded-lg border border-white/10">
+                            <p class="text-xs text-gray-400">Мы находимся в самом центре</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2024 MELISSA Laser Aesthetics. Все права защищены.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-teal-400">Политика конфиденциальности</a>
+                    <a href="#" class="hover:text-teal-400">Договор оферты</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. Canvas Animation (Silk/Particles) ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+                this.alpha = Math.random() * 0.5;
+                this.targetAlpha = this.alpha;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                // Pulsate
+                if (Math.random() > 0.98) {
+                    this.targetAlpha = Math.random() * 0.6;
+                }
+                this.alpha += (this.targetAlpha - this.alpha) * 0.05;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(128, 203, 196, ${this.alpha})`; // Light Tiffany color
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Connect nearby particles for "Silk" effect
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(77, 182, 172, ${0.1 * (1 - dist / 100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+        resize();
+        initParticles();
+        animateCanvas();
+
+
+        // --- 2. Hero Text Reveal Animation ---
+        const titleText = "Раскрой свою истинную красоту с MELISSA";
+        const titleContainer = document.getElementById('hero-title');
+        
+        // Split text into words and wrap in spans
+        titleText.split(' ').forEach((word, index) => {
+            const span = document.createElement('span');
+            span.textContent = word + '\u00A0'; // add non-breaking space
+            span.style.animationDelay = `${index * 0.1}s`;
+            if(word === "MELISSA") {
+                span.classList.add("text-teal-400", "font-serif", "italic");
+            }
+            titleContainer.appendChild(span);
+        });
+
+        // --- 3. Scroll Observer (Fade In) ---
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- 4. Price List Accordion Data & Render ---
+        const prices = [
+            {
+                category: "Лазерная эпиляция (Женщины)",
+                items: [
+                    { name: "Глубокое бикини", price: "1 200 ₽" },
+                    { name: "Подмышечные впадины", price: "500 ₽" },
+                    { name: "Ноги полностью", price: "2 500 ₽" },
+                    { name: "Комплекс (Бикини + Подмышки + Голени)", price: "3 000 ₽" }
+                ]
+            },
+            {
+                category: "Лазерная косметология",
+                items: [
+                    { name: "Карбоновый пилинг (Лицо)", price: "2 000 ₽" },
+                    { name: "Лечение акне (Лазер)", price: "от 1 500 ₽" },
+                    { name: "Удаление пигментации (1 кв.см)", price: "300 ₽" }
+                ]
+            },
+            {
+                category: "RF Лифтинг",
+                items: [
+                    { name: "Лицо полностью", price: "1 800 ₽" },
+                    { name: "Лицо + Шея + Декольте", price: "3 000 ₽" },
+                    { name: "Живот / Бедра", price: "2 000 ₽" }
+                ]
+            }
+        ];
+
+        const accordionContainer = document.getElementById('accordion-container');
+
+        prices.forEach((cat, index) => {
+            const item = document.createElement('div');
+            // Staggered reveal delay for price items based on index
+            item.className = 'reveal';
+            item.style.transitionDelay = `${index * 150}ms`; // Animation on scroll delay
+            
+            // Generate HTML for items with Hover Actions
+            const listItems = cat.items.map(p => `
+                <div class="price-row flex justify-between items-center py-4 px-4 border-b border-white/5 last:border-0 cursor-pointer group">
+                    <span class="price-text text-gray-300 font-light text-base group-hover:translate-x-2 transition-transform duration-300">${p.name}</span>
+                    <div class="flex items-center">
+                        <span class="price-value text-teal-400 font-semibold text-lg whitespace-nowrap">${p.price}</span>
+                        <a href="#contact" class="price-action-btn flex items-center gap-2 bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                            Записаться <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+
+            item.innerHTML = `
+                <div class="overflow-hidden rounded-xl">
+                    <button class="accordion-btn w-full flex justify-between items-center p-6 bg-white/5 border border-white/10 rounded-xl transition-all hover:bg-white/10" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <span class="text-xl md:text-2xl font-serif italic text-white flex items-center gap-3">
+                            ${cat.category}
+                        </span>
+                        <div class="w-8 h-8 rounded-full border border-teal-500/30 flex items-center justify-center bg-teal-900/20">
+                            <i data-lucide="chevron-down" class="accordion-icon w-5 h-5 text-teal-400"></i>
+                        </div>
+                    </button>
+                    <div class="accordion-content bg-black/40 mx-1 border-x border-b border-white/5 rounded-b-xl">
+                        <div class="p-2 md:p-4 space-y-1">
+                            ${listItems}
+                        </div>
+                    </div>
+                </div>
+            `;
+            accordionContainer.appendChild(item);
+        });
+        
+        // Re-run observer for new price elements
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+            
+            // Close all others
+            document.querySelectorAll('.accordion-btn').forEach(b => {
+                b.setAttribute('aria-expanded', 'false');
+                b.nextElementSibling.style.maxHeight = null;
+            });
+
+            if (!isExpanded) {
+                btn.setAttribute('aria-expanded', 'true');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+
+        // --- 5. Parallax Butterfly ---
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            const butterfly = document.getElementById('parallax-butterfly');
+            if(butterfly) {
+                // Move butterfly slightly based on scroll
+                butterfly.style.transform = `translateY(${scroll * 0.2}px) rotate(${scroll * 0.05}deg)`;
+            }
+            
+            // Navbar blur effect on scroll
+            const nav = document.getElementById('navbar');
+            if(scroll > 50) {
+                nav.classList.add('py-0');
+            } else {
+                nav.classList.remove('py-0');
+            }
+        });
+
+        // --- 6. Mobile Menu ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if(isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('translate-x-full');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Initialize Icons
+        lucide.createIcons();
+
+    </script>
 </body>
 </html>
