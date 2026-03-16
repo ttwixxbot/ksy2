@@ -1,796 +1,793 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MELISSA | Студия лазерной эстетики</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MELISSA | Лазерная эстетика лица и тела в Макеевке</title>
+  <meta name="description" content="Студия MELISSA в Макеевке: премиальные процедуры лазерной эстетики лица и тела. Лазерная эпиляция, удаление татуажа, RF-лифтинг, карбоновый пилинг.">
+  
+  <!-- Шрифты -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Иконки FontAwesome (вместо Lucide для работы без сборщика) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tiffany: '#1A9E92',
+            'tiffany-hover': '#138A7C',
+            'tiffany-light': '#E0F2F1',
+            graphite: '#0F172A',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Кастомные стили -->
+  <style>
+    html { 
+      scroll-behavior: smooth; 
+      font-family: 'Montserrat', sans-serif; 
+      background-color: #F3F7F7;
+    }
+    h1, h2, h3, .font-serif { font-family: 'Cormorant Garamond', serif; }
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    @keyframes ambientGlow {
+      0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+      33% { transform: scale(1.1) translate(3%, -3%); opacity: 0.8; }
+      66% { transform: scale(0.95) translate(-3%, 2%); opacity: 0.5; }
+    }
+    .animate-ambient-1 { animation: ambientGlow 15s ease-in-out infinite; }
+    .animate-ambient-2 { animation: ambientGlow 18s ease-in-out infinite reverse; }
     
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @keyframes floatSlow {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(1deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    .animate-float-slow { animation: floatSlow 8s ease-in-out infinite; }
+    
+    @keyframes butterflyFlap {
+      0%, 100% { transform: scaleX(1) translateY(0); }
+      50% { transform: scaleX(0.8) translateY(-4px); }
+    }
+    .animate-flap { animation: butterflyFlap 5s ease-in-out infinite; }
 
-    <style>
-        :root {
-            --color-tiffany-dark: #004D40;
-            --color-tiffany-main: #00897B;
-            --color-tiffany-light: #4DB6AC;
-            --color-tiffany-neon: #80CBC4;
-            --color-glass: rgba(255, 255, 255, 0.08);
-            --color-glass-border: rgba(255, 255, 255, 0.15);
-            --font-serif: 'Playfair Display', serif;
-            --font-sans: 'Manrope', sans-serif;
-        }
+    @keyframes fadeUpSoft {
+      from { opacity: 0; transform: translateY(30px); filter: blur(4px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    .animate-fade-up { animation: fadeUpSoft 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow { animation: spinSlow 30s linear infinite; }
+    
+    .premium-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 10px 40px -10px rgba(26, 158, 146, 0.12);
+      position: relative;
+      z-index: 10;
+    }
+    .premium-card:hover {
+      box-shadow: 0 20px 50px -15px rgba(26, 158, 146, 0.25);
+      transform: translateY(-6px);
+    }
+    
+    .glass-frame {
+      background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.8), 0 20px 40px rgba(0,0,0,0.05);
+    }
 
-        body {
-            background-color: #0f172a;
-            color: #f1f5f9;
-            font-family: var(--font-sans);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+    .global-gradient-bg {
+      background: linear-gradient(140deg, #F8FAFA 0%, #E8F2F0 40%, #D8EBE9 100%);
+    }
+    
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
 
-        /* --- Canvas Background --- */
-        #canvas-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(160deg, #022c28 0%, #004d40 100%);
-        }
-
-        /* --- Typography --- */
-        h1, h2, h3, h4 {
-            font-family: var(--font-serif);
-        }
-
-        .text-gradient {
-            background: linear-gradient(90deg, #ffffff, var(--color-tiffany-neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* --- Glassmorphism --- */
-        .glass-panel {
-            background: var(--color-glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--color-glass-border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s ease;
-        }
-
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--color-tiffany-light);
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(77, 182, 172, 0.2);
-        }
-
-        /* --- Buttons --- */
-        .btn-primary {
-            position: relative;
-            background: linear-gradient(135deg, var(--color-tiffany-main), var(--color-tiffany-dark));
-            color: white;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 137, 123, 0.4);
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 0 25px rgba(0, 137, 123, 0.6);
-            transform: scale(1.02);
-        }
-
-        /* --- Animations --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .word-anim span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px);
-            filter: blur(10px);
-            animation: fadeUp 0.8s forwards;
-        }
-
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-                filter: blur(0);
-            }
-        }
-
-        .butterfly-container {
-            position: absolute;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.15;
-            mix-blend-mode: overlay;
-        }
-
-        /* --- Accordion & Price Interactions --- */
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .accordion-icon {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .accordion-btn[aria-expanded="true"] .accordion-icon {
-            transform: rotate(180deg);
-        }
-
-        .accordion-btn[aria-expanded="true"] {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--color-tiffany-light);
-            box-shadow: 0 0 15px rgba(77, 182, 172, 0.1);
-        }
-
-        /* New Price Row Hover Effects */
-        .price-row {
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            border-radius: 8px;
-            border: 1px solid transparent;
-        }
-
-        .price-row:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(128, 203, 196, 0.3);
-            padding-left: 1.25rem; /* Slide effect */
-        }
-
-        .price-action-btn {
-            position: absolute;
-            right: -120px;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            opacity: 0;
-        }
-
-        .price-row:hover .price-action-btn {
-            right: 1rem;
-            opacity: 1;
-        }
-        
-        .price-row:hover .price-text {
-            color: var(--color-tiffany-neon);
-        }
-
-        /* Hide price value on hover on small screens if it overlaps, 
-           or keep it visible but move it. We'll handle this layout flex-wise. */
-        
-        .price-value {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        
-        .price-row:hover .price-value {
-            transform: translateX(-100px);
-            opacity: 0; /* Fade out price to show button on hover for clean look */
-        }
-        @media (min-width: 768px) {
-            .price-row:hover .price-value {
-                 transform: translateX(-110px);
-                 opacity: 1; /* On desktop keep price visible but move it */
-            }
-        }
-
-        /* --- Scrollbar --- */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #00251f;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--color-tiffany-main);
-            border-radius: 4px;
-        }
-    </style>
+  <!-- React & Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
-<body class="antialiased selection:bg-teal-500 selection:text-white">
+<body>
+  <div id="root"></div>
 
-    <!-- Canvas Background -->
-    <canvas id="canvas-bg"></canvas>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
 
-    <!-- Header -->
-    <header class="fixed w-full z-50 transition-all duration-300 top-0" id="navbar">
-        <div class="glass-panel border-t-0 border-l-0 border-r-0 rounded-b-2xl mx-2 mt-2 lg:mx-8 lg:mt-4">
-            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-                <a href="#" class="text-2xl lg:text-3xl font-serif italic text-white tracking-wider z-50">
-                    Melissa
-                    <span class="text-teal-400 text-sm block not-italic font-sans tracking-widest uppercase text-xs">Laser Aesthetics</span>
-                </a>
+    // --- НАСТРОЙКИ СТУДИИ ---
+    const STUDIO_NAME = "MELISSA";
+    const STUDIO_PHONE = "+7 949 322 54 74";
+    const STUDIO_WHATSAPP = "79493225474"; 
+    const STUDIO_ADDRESS = "г. Макеевка, бульвар Горбачева, 32, ТЦ «Рандеву», 3 этаж";
+    const STUDIO_HOURS = "Ежедневно с 10:00 до 20:00 (по предварительной записи)";
 
-                <!-- Desktop Menu -->
-                <nav class="hidden lg:flex items-center gap-8">
-                    <a href="#services" class="text-sm uppercase tracking-widest hover:text-teal-300 transition-colors">Услуги</a>
-                    <a href="#about" class="text-sm uppercase tracking-widest hover:text-teal-300 transition-colors">О нас</a>
-                    <a href="#price" class="text-sm uppercase tracking-widest hover:text-teal-300 transition-colors">Прайс</a>
-                    <a href="#contact" class="text-sm uppercase tracking-widest hover:text-teal-300 transition-colors">Контакты</a>
-                </nav>
+    // --- БАЗА ДАННЫХ УСЛУГ ---
+    const servicesOverview = [
+      {
+        title: 'Лазерная эпиляция',
+        desc: 'Эффективная процедура для удаления нежелательных волос на лице и теле. Подходит для разных зон, помогает надолго сохранить гладкость кожи.'
+      },
+      {
+        title: 'Удаление татуажа',
+        desc: 'Современная и безопасная лазерная процедура для коррекции или полного удаления нежелательного перманентного макияжа и татуировок.'
+      },
+      {
+        title: 'Карбоновый пилинг',
+        desc: 'Популярная процедура для глубокого очищения кожи, сужения пор, улучшения тона лица и свежего ухоженного внешнего вида.'
+      },
+      {
+        title: 'Удаление пигментации',
+        desc: 'Лазерная процедура для бережного уменьшения видимости пигментных пятен, веснушек и выравнивания общего тона кожи.'
+      },
+      {
+        title: 'RF-лифтинг',
+        desc: 'Аппаратная процедура для повышения тонуса кожи, улучшения контуров овала лица, стимуляции коллагена и ухода за кожей тела.'
+      },
+      {
+        title: 'Фотоомоложение',
+        desc: 'Эстетическая процедура, направленная на улучшение внешнего вида кожи лица, возвращение свежести, сияния и ровного тона.'
+      }
+    ];
 
-                <div class="hidden lg:block">
-                    <a href="#contact" class="btn-primary px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wide">
-                        Записаться онлайн
-                    </a>
-                </div>
+    // --- БАЗА ДАННЫХ ПРАЙСА ---
+    const priceData = {
+      epilation: {
+        id: 'epilation',
+        title: 'Лазерная эпиляция',
+        items: [
+          { name: 'Верхняя губа', price: 350 },
+          { name: 'Подбородок', price: 400 },
+          { name: 'Щеки', price: 500 },
+          { name: 'Бакенбарды', price: 350 },
+          { name: 'Межбровье', price: 250 },
+          { name: 'Линия лба', price: 400 },
+          { name: 'Линия живота', price: 350 },
+          { name: 'Живот полностью', price: 1500 },
+          { name: 'Предплечья', price: 1200 },
+          { name: 'Подмышечные области', price: 800 },
+          { name: 'Бикини неглубокое', price: 1200 },
+          { name: 'Бикини глубокое', price: 2000 },
+          { name: 'Ореол молочных желез', price: 400 },
+          { name: 'Ноги полностью', price: 3900 },
+          { name: 'Голени', price: 1600 },
+          { name: 'Колени', price: 500 },
+          { name: 'Бедра', price: 2200 },
+          { name: 'Голени с коленями', price: 1900 },
+          { name: 'Руки полностью', price: 1800 },
+          { name: 'Руки до локтя', price: 1000 },
+          { name: 'Спина', price: 2900 },
+          { name: 'Грудь', price: 1700 },
+          { name: 'Ягодицы', price: 1200 },
+          { name: 'Поясница', price: 700 },
+        ]
+      },
+      tattoo: {
+        id: 'tattoo',
+        title: 'Удаление татуажа',
+        items: [
+          { name: 'Губы', price: 1800 },
+          { name: 'Брови', price: 1800 },
+          { name: 'Стрелки', price: 1800 },
+          { name: 'Татуировки (за импульс)', price: 2 },
+        ]
+      },
+      pigmentation: {
+        id: 'pigmentation',
+        title: 'Удаление пигментации',
+        items: [
+          { name: 'Нос', price: 500 },
+          { name: 'Плечи', price: 1000 },
+          { name: 'Подбородок', price: 600 },
+          { name: 'Руки', price: 1000 },
+          { name: 'Скулы', price: 700 },
+          { name: 'Спина', price: 2000 },
+          { name: 'Шея', price: 800 },
+          { name: 'Щеки', price: 900 },
+          { name: 'Губа', price: 400 },
+          { name: 'Декольте', price: 1100 },
+          { name: 'Кисти рук', price: 500 },
+          { name: 'Лицо', price: 1400 },
+          { name: 'Лоб', price: 700 },
+          { name: 'Удаление одного образования', price: 200 },
+        ]
+      },
+      rfLifting: {
+        id: 'rfLifting',
+        title: 'RF-лифтинг',
+        items: [
+          { name: 'Кисти', price: 600 },
+          { name: 'Шея', price: 700 },
+          { name: 'Лицо', price: 1400 },
+          { name: 'Лоб', price: 500 },
+          { name: 'Носогубная складка', price: 500 },
+          { name: 'Область глаз', price: 400 },
+          { name: 'Овал лица', price: 800 },
+          { name: 'Декольте', price: 1000 },
+          { name: 'Живот', price: 1500 },
+          { name: 'Ягодицы', price: 1600 },
+        ]
+      },
+      rejuvenation: {
+        id: 'rejuvenation',
+        title: 'Фотоомоложение',
+        items: [
+          { name: 'Лицо', price: 2000 },
+          { name: 'Лицо + шея', price: 2300 },
+          { name: 'Лицо + шея + декольте', price: 2900 },
+        ]
+      },
+      peeling: {
+        id: 'peeling',
+        title: 'Карбоновый пилинг',
+        items: [
+          { name: 'Лицо', price: 2000 },
+          { name: 'Лицо + шея', price: 2500 },
+          { name: 'Лицо + шея + декольте', price: 3500 },
+        ]
+      }
+    };
 
-                <!-- Mobile Hamburger -->
-                <button class="lg:hidden z-50 text-white" id="mobile-menu-btn">
-                    <i data-lucide="menu" class="w-8 h-8"></i>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu Overlay -->
-        <div class="fixed inset-0 bg-black/95 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center gap-8" id="mobile-menu">
-            <a href="#services" class="mobile-link text-2xl font-serif italic text-white">Услуги</a>
-            <a href="#about" class="mobile-link text-2xl font-serif italic text-white">О нас</a>
-            <a href="#price" class="mobile-link text-2xl font-serif italic text-white">Прайс</a>
-            <a href="#contact" class="mobile-link text-2xl font-serif italic text-white">Контакты</a>
-            <a href="#contact" class="mobile-link btn-primary px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wide mt-4">
-                Записаться
-            </a>
-        </div>
-    </header>
+    const faqs = [
+      {
+        question: "Где сделать лазерную эпиляцию в Макеевке?",
+        answer: "В студии MELISSA по адресу: г. Макеевка, бульвар Горбачева, 32 (ТЦ «Рандеву», 3 этаж). Мы используем современное оборудование для безболезненного и эффективного удаления волос."
+      },
+      {
+        question: "Какие процедуры доступны в студии MELISSA?",
+        answer: "Мы специализируемся на лазерной эстетике лица и тела. У нас доступны: лазерная эпиляция, удаление татуажа и татуировок, карбоновый пилинг, удаление пигментации, RF-лифтинг лица и тела, а также фотоомоложение лица."
+      },
+      {
+        question: "Как записаться на процедуру?",
+        answer: "Записаться можно по телефону +7 949 322 54 74, написав нам в WhatsApp, Telegram или оставив заявку через сайт. Мы подберем для вас самое удобное время."
+      },
+      {
+        question: "Где находится студия MELISSA?",
+        answer: `Мы находимся в самом центре: ${STUDIO_ADDRESS}. Для вашего удобства рядом есть парковка.`
+      },
+      {
+        question: "Есть ли прайс на сайте?",
+        answer: "Да, на сайте представлен подробный и актуальный прайс-лист в разделе «Прайс». Мы придерживаемся политики прозрачных цен без скрытых доплат."
+      },
+      {
+        question: "Какие процедуры для лица можно сделать?",
+        answer: "Для лица мы предлагаем карбоновый пилинг (очищение и сужение пор), фотоомоложение (ровный тон и сияние), RF-лифтинг (подтяжка овала лица), а также безопасное удаление татуажа бровей, губ и стрелок."
+      },
+      {
+        question: "Что входит в лазерную эстетику лица и тела?",
+        answer: "Это комплекс современных аппаратных процедур, направленных на улучшение качества кожи (омоложение, пилинг, лифтинг), избавление от несовершенств (пигментация, неудачный татуаж) и нежелательных волос (эпиляция)."
+      }
+    ];
 
-    <!-- Hero Section -->
-    <section class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-        <div class="container mx-auto px-6 text-center relative z-10">
-            <h1 class="text-5xl md:text-7xl lg:text-8xl mb-6 leading-tight word-anim" id="hero-title">
-                <!-- Text populated by JS for animation -->
-            </h1>
-            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-light reveal delay-500 tracking-wide">
-                Лазерная эстетика лица и тела. Инновации для вашей безупречности в атмосфере полной релаксации.
-            </p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center reveal delay-700">
-                <a href="#services" class="btn-primary px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest">
-                    Выбрать услугу
-                </a>
-                <a href="#about" class="px-10 py-4 rounded-full border border-white/20 hover:bg-white/10 transition-all text-sm font-bold uppercase tracking-widest backdrop-blur-sm">
-                    Узнать больше
-                </a>
-            </div>
-        </div>
+    // --- КОМПОНЕНТЫ ---
 
-        <!-- Decorative Light effects -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-500/20 rounded-full blur-[120px] pointer-events-none"></div>
-    </section>
+    const ButterflyIcon = ({ className, style }) => (
+      <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+        <defs>
+          <linearGradient id="wingTopL" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#B5EAE8" stopOpacity="0.9"/>
+            <stop offset="30%" stopColor="#5DCEC8" stopOpacity="0.95"/>
+            <stop offset="60%" stopColor="#A8D8E8" stopOpacity="0.85"/>
+            <stop offset="100%" stopColor="#E8C8D8" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="wingTopR" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#B5EAE8" stopOpacity="0.9"/>
+            <stop offset="30%" stopColor="#5DCEC8" stopOpacity="0.95"/>
+            <stop offset="60%" stopColor="#A8D8E8" stopOpacity="0.85"/>
+            <stop offset="100%" stopColor="#E8C8D8" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="wingBotL" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#D4F0EE" stopOpacity="0.85"/>
+            <stop offset="40%" stopColor="#C8E8F0" stopOpacity="0.8"/>
+            <stop offset="70%" stopColor="#E0D0E8" stopOpacity="0.75"/>
+            <stop offset="100%" stopColor="#F0E0EA" stopOpacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="wingBotR" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#D4F0EE" stopOpacity="0.85"/>
+            <stop offset="40%" stopColor="#C8E8F0" stopOpacity="0.8"/>
+            <stop offset="70%" stopColor="#E0D0E8" stopOpacity="0.75"/>
+            <stop offset="100%" stopColor="#F0E0EA" stopOpacity="0.7"/>
+          </linearGradient>
+        </defs>
 
-    <!-- Services Section -->
-    <section id="services" class="py-24 relative">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-4xl md:text-5xl mb-4 text-gradient italic">Наши Услуги</h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-teal-500 to-transparent mx-auto"></div>
-            </div>
+        {/* Нижние крылья */}
+        <path d="M148 148 C120 155,90 165,72 180 C55 195,50 215,58 230 C66 245,82 248,98 240 C112 233,125 218,132 202 C138 188,142 170,148 158 Z"
+              fill="url(#wingBotL)" stroke="#7ECCC8" strokeWidth="0.8" strokeOpacity="0.5"/>
+        <path d="M72 232 C65 242,62 255,68 262 C72 267,78 265,80 258 C82 252,78 244,72 232Z"
+              fill="url(#wingBotL)" stroke="#7ECCC8" strokeWidth="0.6" strokeOpacity="0.4"/>
+        <path d="M152 148 C180 155,210 165,228 180 C245 195,250 215,242 230 C234 245,218 248,202 240 C188 233,175 218,168 202 C162 188,158 170,152 158 Z"
+              fill="url(#wingBotR)" stroke="#7ECCC8" strokeWidth="0.8" strokeOpacity="0.5"/>
+        <path d="M228 232 C235 242,238 255,232 262 C228 267,222 265,220 258 C218 252,222 244,228 232Z"
+              fill="url(#wingBotR)" stroke="#7ECCC8" strokeWidth="0.6" strokeOpacity="0.4"/>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Service 1 -->
-                <div class="glass-card p-8 rounded-2xl relative group reveal">
-                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
-                            <i data-lucide="zap" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl mb-3">Лазерная эпиляция</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed">Гладкая кожа навсегда. Используем новейший диодный лазер для безболезненного удаления волос на любом фототипе.</p>
-                    </div>
-                </div>
+        {/* Прожилки нижних крыльев */}
+        <g stroke="#5DCEC8" strokeWidth="0.5" strokeOpacity="0.45" fill="none">
+          <path d="M148 155 C135 170,115 185,95 195"/>
+          <path d="M148 162 C138 175,122 192,105 205"/>
+          <path d="M148 170 C142 185,132 200,118 215"/>
+          <path d="M152 155 C165 170,185 185,205 195"/>
+          <path d="M152 162 C162 175,178 192,195 205"/>
+          <path d="M152 170 C158 185,168 200,182 215"/>
+        </g>
+        <ellipse cx="105" cy="195" rx="18" ry="12" fill="#F0C8E0" fillOpacity="0.3" transform="rotate(-30 105 195)"/>
+        <ellipse cx="195" cy="195" rx="18" ry="12" fill="#F0C8E0" fillOpacity="0.3" transform="rotate(30 195 195)"/>
 
-                <!-- Service 2 -->
-                <div class="glass-card p-8 rounded-2xl relative group reveal delay-100">
-                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
-                            <i data-lucide="scan-face" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl mb-3">Карбоновый пилинг</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed">Очищение и омоложение. Лазер воздействует на нано-гель, удаляя ороговевшие клетки и сужая поры.</p>
-                    </div>
-                </div>
+        {/* Верхние крылья */}
+        <path d="M148 130 C135 110,108 88,78 72 C52 58,28 58,18 72 C8 86,14 108,30 125 C46 142,72 150,100 152 C118 153,136 150,148 145 Z"
+              fill="url(#wingTopL)" stroke="#2ABDB5" strokeWidth="1" strokeOpacity="0.6"/>
+        <path d="M152 130 C165 110,192 88,222 72 C248 58,272 58,282 72 C292 86,286 108,270 125 C254 142,228 150,200 152 C182 153,164 150,152 145 Z"
+              fill="url(#wingTopR)" stroke="#2ABDB5" strokeWidth="1" strokeOpacity="0.6"/>
 
-                <!-- Service 3 -->
-                <div class="glass-card p-8 rounded-2xl relative group reveal delay-200">
-                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
-                            <i data-lucide="eraser" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl mb-3">Удаление тату</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed">Бесследное удаление неудачного перманента и татуировок без шрамов и ожогов неодимовым лазером.</p>
-                    </div>
-                </div>
+        {/* Прожилки верхних крыльев */}
+        <g stroke="#2ABDB5" strokeWidth="0.7" strokeOpacity="0.55" fill="none">
+          <path d="M148 140 C132 125,105 105,75 85"/>
+          <path d="M148 138 C128 120,98 100,65 82"/>
+          <path d="M148 136 C135 118,112 95,88 75"/>
+          <path d="M148 142 C130 130,108 118,85 110"/>
+          <path d="M148 144 C132 138,118 130,100 125"/>
+          <path d="M152 140 C168 125,195 105,225 85"/>
+          <path d="M152 138 C172 120,202 100,235 82"/>
+          <path d="M152 136 C165 118,188 95,212 75"/>
+          <path d="M152 142 C170 130,192 118,215 110"/>
+          <path d="M152 144 C168 138,182 130,200 125"/>
+        </g>
+        <ellipse cx="85" cy="105" rx="28" ry="20" fill="white" fillOpacity="0.25" transform="rotate(-35 85 105)"/>
+        <ellipse cx="215" cy="105" rx="28" ry="20" fill="white" fillOpacity="0.25" transform="rotate(35 215 105)"/>
+        <ellipse cx="55" cy="95" rx="15" ry="10" fill="#E8C8D8" fillOpacity="0.3" transform="rotate(-20 55 95)"/>
+        <ellipse cx="245" cy="95" rx="15" ry="10" fill="#E8C8D8" fillOpacity="0.3" transform="rotate(20 245 95)"/>
 
-                <!-- Service 4 -->
-                <div class="glass-card p-8 rounded-2xl relative group reveal">
-                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
-                            <i data-lucide="sparkles" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl mb-3">Удаление пигментации</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed">Ровный тон лица. Устранение веснушек, возрастных пятен и последствий акне.</p>
-                    </div>
-                </div>
+        {/* Тельце */}
+        <ellipse cx="150" cy="112" rx="5" ry="5.5" fill="#3A3035"/>
+        <ellipse cx="150" cy="123" rx="4.5" ry="6" fill="#4A3840"/>
+        <path d="M146 130 C145 140,145 155,146 168 C147 178,149 182,150 183 C151 182,153 178,154 168 C155 155,155 140,154 130 C152 128,148 128,146 130Z"
+              fill="#3A3035"/>
+        <path d="M148.5 133 C147.5 143,147.5 158,148.5 168" stroke="#8A7880" strokeWidth="0.8" strokeOpacity="0.5" fill="none"/>
 
-                <!-- Service 5 -->
-                <div class="glass-card p-8 rounded-2xl relative group reveal delay-100">
-                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
-                            <i data-lucide="waves" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl mb-3">RF Лифтинг</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed">Безоперационная подтяжка лица и тела. Стимуляция выработки коллагена с помощью радиочастот.</p>
-                    </div>
-                </div>
+        {/* Усики */}
+        <path d="M147 110 C138 98,128 85,122 72" stroke="#3A3035" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+        <circle cx="121" cy="70" r="2.5" fill="#3A3035"/>
+        <path d="M153 110 C162 98,172 85,178 72" stroke="#3A3035" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+        <circle cx="179" cy="70" r="2.5" fill="#3A3035"/>
+      </svg>
+    );
 
-                <!-- Service 6 -->
-                <div class="glass-card p-8 rounded-2xl relative group reveal delay-200">
-                    <div class="absolute inset-0 bg-gradient-to-b from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-teal-900/50 rounded-full flex items-center justify-center mb-6 text-teal-300 group-hover:scale-110 transition-transform duration-300 border border-teal-500/30">
-                            <i data-lucide="sun" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl mb-3">Фотоомоложение</h3>
-                        <p class="text-gray-400 text-sm leading-relaxed">Комплексное улучшение качества кожи. Лечение купероза, розацеа и фотостарения.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    function App() {
+      const [activeTab, setActiveTab] = useState('epilation');
+      const [openFaq, setOpenFaq] = useState(0);
+      const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+      const [isScrolled, setIsScrolled] = useState(false);
 
-    <!-- Why Us Section (Parallax) -->
-    <section id="about" class="py-32 relative overflow-hidden">
-        <!-- Abstract Butterfly SVG Background -->
-        <div class="butterfly-container absolute right-0 top-1/4 w-[500px] h-[500px] transition-transform duration-100 ease-linear" id="parallax-butterfly">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-teal-500 fill-current">
-                <path d="M45.5,-76.3C58.9,-69.3,69.1,-58.3,77.3,-46.3C85.5,-34.3,91.7,-21.3,90.3,-8.8C88.9,3.7,79.9,15.7,71.1,26.9C62.3,38.1,53.7,48.5,43.2,55.8C32.7,63.1,20.3,67.3,7.4,68.9C-5.5,70.5,-18.9,69.5,-31.6,63.9C-44.3,58.3,-56.3,48.1,-65.8,36.2C-75.3,24.3,-82.3,10.7,-81.4,-2.4C-80.5,-15.5,-71.7,-28.1,-61.6,-38.7C-51.5,-49.3,-40.1,-57.9,-28.3,-65.7C-16.5,-73.5,-4.3,-80.5,9.6,-82.1L23.5,-83.7L45.5,-76.3Z" transform="translate(100 100)" style="filter: blur(40px); opacity: 0.6;"/>
-                <path d="M100,100 Q130,50 180,80 Q130,110 100,100 Z M100,100 Q70,50 20,80 Q70,110 100,100 Z" fill="none" stroke="white" stroke-width="0.5" opacity="0.5"/>
-            </svg>
-        </div>
-
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="flex flex-col lg:flex-row items-center gap-12">
-                <div class="lg:w-1/2 reveal">
-                    <h2 class="text-4xl md:text-6xl mb-8 italic text-gradient leading-tight">Трансформация <br>начинается здесь</h2>
-                    <p class="text-gray-300 mb-6 text-lg">В студии MELISSA мы объединили медицинскую стерильность с эстетикой премиального SPA. Наши протоколы безопасности соответствуют международным стандартам.</p>
-                    
-                    <ul class="space-y-4 text-gray-400">
-                        <li class="flex items-center gap-3">
-                            <i data-lucide="shield-check" class="text-teal-400"></i>
-                            <span>Стерильность и одноразовые расходники</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i data-lucide="microscope" class="text-teal-400"></i>
-                            <span>Сертифицированное диодное оборудование 2024 года</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i data-lucide="heart-handshake" class="text-teal-400"></i>
-                            <span>Специалисты с медицинским образованием</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="lg:w-1/2 reveal delay-200">
-                    <div class="glass-panel p-2 rounded-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
-                        <!-- Placeholder for Interior Image, generating abstract visual instead -->
-                        <div class="rounded-xl overflow-hidden h-[400px] bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative">
-                            <div class="absolute inset-0 opacity-30">
-                                <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <path d="M0 100 C 20 0 50 0 100 100 Z" fill="url(#grad1)" />
-                                    <defs>
-                                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" style="stop-color:rgb(0,77,64);stop-opacity:1" />
-                                        <stop offset="100%" style="stop-color:rgb(0,137,123);stop-opacity:1" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </div>
-                            <span class="font-serif italic text-3xl text-white/20">Interior Atmosphere</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Price Section (Accordion) -->
-    <section id="price" class="py-24 bg-black/20">
-        <div class="container mx-auto px-6 max-w-4xl">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-4xl md:text-5xl mb-4 text-white font-serif italic">Прайс-лист</h2>
-                <p class="text-gray-400">Честные цены за безупречный результат</p>
-            </div>
-
-            <div class="space-y-6" id="accordion-container">
-                <!-- JS will generate accordion items here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer & Contact -->
-    <footer id="contact" class="bg-[#021816] pt-20 pb-10 relative border-t border-white/5">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-                <!-- Info -->
-                <div class="reveal">
-                    <h2 class="text-5xl font-serif italic text-white mb-8">Melissa</h2>
-                    <div class="space-y-6">
-                        <div class="flex items-start gap-4">
-                            <div class="mt-1 w-10 h-10 rounded-full bg-teal-900/30 flex items-center justify-center text-teal-400 shrink-0">
-                                <i data-lucide="map-pin" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <p class="text-gray-400 text-sm uppercase tracking-wider mb-1">Адрес</p>
-                                <p class="text-white text-lg">г. Макеевка, бульвар Горбачева, 32</p>
-                                <p class="text-teal-400">ТЦ Рандеву, 3 этаж</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="mt-1 w-10 h-10 rounded-full bg-teal-900/30 flex items-center justify-center text-teal-400 shrink-0">
-                                <i data-lucide="phone" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <p class="text-gray-400 text-sm uppercase tracking-wider mb-1">Телефон</p>
-                                <a href="tel:+79493225474" class="text-white text-2xl font-serif hover:text-teal-300 transition-colors">+7 (949) 322-54-74</a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="mt-1 w-10 h-10 rounded-full bg-teal-900/30 flex items-center justify-center text-teal-400 shrink-0">
-                                <i data-lucide="clock" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <p class="text-gray-400 text-sm uppercase tracking-wider mb-1">Режим работы</p>
-                                <p class="text-white">Ежедневно: 09:00 - 20:00</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-10">
-                        <a href="tel:+79493225474" class="btn-primary px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest inline-block">
-                            Записаться сейчас
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Stylized Map Card -->
-                <div class="glass-panel p-2 rounded-2xl h-[400px] reveal delay-200 relative overflow-hidden group">
-                    <!-- Since we can't use a real API key without exposure, we create a high-end styled placeholder map -->
-                    <div class="w-full h-full bg-[#051e1c] rounded-xl relative overflow-hidden">
-                        <!-- Map Grid Lines -->
-                        <div class="absolute inset-0" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px;"></div>
-                        
-                        <!-- Streets -->
-                        <div class="absolute top-1/2 left-0 right-0 h-2 bg-[#0a2e2b] -rotate-12 transform translate-y-10"></div>
-                        <div class="absolute top-0 bottom-0 left-1/2 w-3 bg-[#0a2e2b] transform -translate-x-10"></div>
-                        
-                        <!-- Marker -->
-                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-                            <div class="w-4 h-4 bg-teal-400 rounded-full animate-ping absolute"></div>
-                            <div class="w-4 h-4 bg-teal-500 rounded-full border-2 border-white relative z-10 shadow-[0_0_20px_rgba(20,184,166,0.5)]"></div>
-                            <div class="mt-2 bg-white/10 backdrop-blur-md px-3 py-1 rounded text-xs text-white border border-white/10">ТЦ Рандеву</div>
-                        </div>
-
-                        <div class="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md p-4 rounded-lg border border-white/10">
-                            <p class="text-xs text-gray-400">Мы находимся в самом центре</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-                <p>&copy; 2024 MELISSA Laser Aesthetics. Все права защищены.</p>
-                <div class="flex gap-4 mt-4 md:mt-0">
-                    <a href="#" class="hover:text-teal-400">Политика конфиденциальности</a>
-                    <a href="#" class="hover:text-teal-400">Договор оферты</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // --- 1. Canvas Animation (Silk/Particles) ---
-        const canvas = document.getElementById('canvas-bg');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2;
-                this.alpha = Math.random() * 0.5;
-                this.targetAlpha = this.alpha;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0) this.x = width;
-                if (this.x > width) this.x = 0;
-                if (this.y < 0) this.y = height;
-                if (this.y > height) this.y = 0;
-
-                // Pulsate
-                if (Math.random() > 0.98) {
-                    this.targetAlpha = Math.random() * 0.6;
-                }
-                this.alpha += (this.targetAlpha - this.alpha) * 0.05;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(128, 203, 196, ${this.alpha})`; // Light Tiffany color
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < 150; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-
-            // Connect nearby particles for "Silk" effect
-            particles.forEach((p1, i) => {
-                particles.slice(i + 1).forEach(p2 => {
-                    const dx = p1.x - p2.x;
-                    const dy = p1.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 100) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(77, 182, 172, ${0.1 * (1 - dist / 100)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                });
-            });
-
-            requestAnimationFrame(animateCanvas);
-        }
-
-        window.addEventListener('resize', () => {
-            resize();
-            initParticles();
-        });
-        resize();
-        initParticles();
-        animateCanvas();
-
-
-        // --- 2. Hero Text Reveal Animation ---
-        const titleText = "Раскрой свою истинную красоту с MELISSA";
-        const titleContainer = document.getElementById('hero-title');
-        
-        // Split text into words and wrap in spans
-        titleText.split(' ').forEach((word, index) => {
-            const span = document.createElement('span');
-            span.textContent = word + '\u00A0'; // add non-breaking space
-            span.style.animationDelay = `${index * 0.1}s`;
-            if(word === "MELISSA") {
-                span.classList.add("text-teal-400", "font-serif", "italic");
-            }
-            titleContainer.appendChild(span);
-        });
-
-        // --- 3. Scroll Observer (Fade In) ---
-        const observerOptions = {
-            threshold: 0.1
+      useEffect(() => {
+        const handleScroll = () => {
+          setIsScrolled(window.scrollY > 30);
         };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
+      const handleWhatsAppClick = (serviceName = '') => {
+        const text = serviceName 
+          ? `Здравствуйте! Хочу записаться на процедуру: ${serviceName}. Подскажите свободное время.`
+          : `Здравствуйте! Хочу записаться в студию MELISSA. Подскажите свободное время.`;
+        window.open(`https://wa.me/${STUDIO_WHATSAPP}?text=${encodeURIComponent(text)}`, '_blank');
+      };
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      return (
+        <div className="min-h-screen global-gradient-bg text-[#334155] flex flex-col font-light selection:bg-tiffany selection:text-white relative overflow-hidden">
+          
+          <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-[#E0F2F1] rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-ambient-1 pointer-events-none z-0"></div>
+          <div className="fixed bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-[#CDEBE7] rounded-full mix-blend-multiply filter blur-[150px] opacity-60 animate-ambient-2 pointer-events-none z-0"></div>
 
-        // --- 4. Price List Accordion Data & Render ---
-        const prices = [
-            {
-                category: "Лазерная эпиляция (Женщины)",
-                items: [
-                    { name: "Глубокое бикини", price: "1 200 ₽" },
-                    { name: "Подмышечные впадины", price: "500 ₽" },
-                    { name: "Ноги полностью", price: "2 500 ₽" },
-                    { name: "Комплекс (Бикини + Подмышки + Голени)", price: "3 000 ₽" }
-                ]
-            },
-            {
-                category: "Лазерная косметология",
-                items: [
-                    { name: "Карбоновый пилинг (Лицо)", price: "2 000 ₽" },
-                    { name: "Лечение акне (Лазер)", price: "от 1 500 ₽" },
-                    { name: "Удаление пигментации (1 кв.см)", price: "300 ₽" }
-                ]
-            },
-            {
-                category: "RF Лифтинг",
-                items: [
-                    { name: "Лицо полностью", price: "1 800 ₽" },
-                    { name: "Лицо + Шея + Декольте", price: "3 000 ₽" },
-                    { name: "Живот / Бедра", price: "2 000 ₽" }
-                ]
-            }
-        ];
+          <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.04)] py-4' : 'bg-transparent py-6'}`}>
+            <div className="container mx-auto px-4 md:px-8 flex justify-between items-center max-w-7xl">
+              <a href="#" className="flex items-center gap-3 group">
+                <ButterflyIcon className="w-10 h-10 text-tiffany group-hover:animate-flap transition-transform duration-700" strokeWidth="1" />
+                <span className="font-serif text-3xl font-bold tracking-[0.1em] uppercase text-graphite">{STUDIO_NAME}</span>
+              </a>
 
-        const accordionContainer = document.getElementById('accordion-container');
+              <nav className="hidden md:flex items-center gap-8">
+                {['О студии', 'Услуги', 'Прайс', 'Контакты'].map((item, i) => (
+                  <a key={i} href={`#${['about', 'services', 'price', 'contacts'][i]}`} className="text-sm font-semibold text-[#334155] hover:text-tiffany transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-0 after:h-[2px] after:bg-tiffany hover:after:w-full after:transition-all after:duration-300">
+                    {item}
+                  </a>
+                ))}
+              </nav>
 
-        prices.forEach((cat, index) => {
-            const item = document.createElement('div');
-            // Staggered reveal delay for price items based on index
-            item.className = 'reveal';
-            item.style.transitionDelay = `${index * 150}ms`; // Animation on scroll delay
+              <div className="hidden md:flex items-center gap-6">
+                <a href={`tel:${STUDIO_PHONE.replace(/\s+/g, '')}`} className="font-bold text-sm text-graphite hover:text-tiffany transition-colors">{STUDIO_PHONE}</a>
+                <button onClick={() => handleWhatsAppClick()} className="bg-tiffany text-white px-7 py-3 rounded-full text-sm font-semibold shadow-[0_8px_20px_rgba(26,158,146,0.3)] hover:shadow-[0_12px_25px_rgba(26,158,146,0.5)] hover:-translate-y-0.5 hover:bg-[#138A7C] transition-all duration-300 flex items-center gap-2">
+                  <i className="fa-regular fa-calendar-check text-sm"></i> Записаться
+                </button>
+              </div>
+
+              <button className="md:hidden text-graphite focus:outline-none" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                {isMobileMenuOpen ? <i className="fa-solid fa-xmark text-2xl"></i> : <i className="fa-solid fa-bars text-2xl"></i>}
+              </button>
+            </div>
+
+            {isMobileMenuOpen && (
+              <div className="md:hidden absolute top-full left-0 w-full bg-white border-t border-gray-100 shadow-2xl py-6 px-6 flex flex-col gap-5 animate-fade-up">
+                <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold text-graphite border-b border-gray-100 pb-3">О студии</a>
+                <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold text-graphite border-b border-gray-100 pb-3">Все услуги</a>
+                <a href="#price" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold text-graphite border-b border-gray-100 pb-3">Прайс-лист</a>
+                <a href="#contacts" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold text-graphite pb-2">Контакты</a>
+              </div>
+            )}
+          </header>
+
+          <main className="flex-grow relative z-10">
             
-            // Generate HTML for items with Hover Actions
-            const listItems = cat.items.map(p => `
-                <div class="price-row flex justify-between items-center py-4 px-4 border-b border-white/5 last:border-0 cursor-pointer group">
-                    <span class="price-text text-gray-300 font-light text-base group-hover:translate-x-2 transition-transform duration-300">${p.name}</span>
-                    <div class="flex items-center">
-                        <span class="price-value text-teal-400 font-semibold text-lg whitespace-nowrap">${p.price}</span>
-                        <a href="#contact" class="price-action-btn flex items-center gap-2 bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
-                            Записаться <i data-lucide="arrow-right" class="w-3 h-3"></i>
-                        </a>
-                    </div>
-                </div>
-            `).join('');
-
-            item.innerHTML = `
-                <div class="overflow-hidden rounded-xl">
-                    <button class="accordion-btn w-full flex justify-between items-center p-6 bg-white/5 border border-white/10 rounded-xl transition-all hover:bg-white/10" aria-expanded="false" onclick="toggleAccordion(this)">
-                        <span class="text-xl md:text-2xl font-serif italic text-white flex items-center gap-3">
-                            ${cat.category}
-                        </span>
-                        <div class="w-8 h-8 rounded-full border border-teal-500/30 flex items-center justify-center bg-teal-900/20">
-                            <i data-lucide="chevron-down" class="accordion-icon w-5 h-5 text-teal-400"></i>
-                        </div>
+            <section className="relative min-h-[95vh] flex items-center pt-24 pb-20 overflow-hidden">
+              <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
+                <div className="lg:w-[55%] text-center lg:text-left pt-10 lg:pt-0 animate-fade-up">
+                  <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/60 backdrop-blur-md border border-white text-sm font-bold text-tiffany mb-8 shadow-sm">
+                    <i className="fa-solid fa-wand-magic-sparkles text-sm"></i> Студия лазерной эстетики в Макеевке
+                  </div>
+                  <h1 className="font-serif text-6xl md:text-[5rem] lg:text-[6rem] font-bold text-graphite leading-[1.05] mb-6 uppercase tracking-wider drop-shadow-sm">
+                    {STUDIO_NAME}
+                  </h1>
+                  <h2 className="text-xl md:text-2xl font-bold text-[#334155] mb-8 tracking-[0.15em] uppercase">
+                    Эстетика лица и тела
+                  </h2>
+                  <p className="text-[#475569] text-lg md:text-xl mb-12 max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
+                    Деликатный подход, премиальные аппаратные методики и видимый результат. Откройте для себя новый уровень заботы о себе.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-5 justify-center lg:justify-start">
+                    <button onClick={() => handleWhatsAppClick()} className="bg-tiffany hover:bg-[#138A7C] text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_12px_30px_rgba(26,158,146,0.35)] hover:shadow-[0_18px_40px_rgba(26,158,146,0.5)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
+                      Записаться <i className="fa-solid fa-arrow-right text-lg"></i>
                     </button>
-                    <div class="accordion-content bg-black/40 mx-1 border-x border-b border-white/5 rounded-b-xl">
-                        <div class="p-2 md:p-4 space-y-1">
-                            ${listItems}
-                        </div>
-                    </div>
+                    <a href="#price" className="bg-white hover:bg-gray-50 text-graphite px-10 py-5 rounded-full font-bold text-lg border border-white shadow-[0_8px_20px_rgba(0,0,0,0.05)] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
+                      Смотреть прайс
+                    </a>
+                  </div>
                 </div>
-            `;
-            accordionContainer.appendChild(item);
-        });
-        
-        // Re-run observer for new price elements
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+                
+                <div className="lg:w-[45%] relative flex justify-center items-center animate-fade-up" style={{ animationDelay: '0.2s' }}>
+                  <ButterflyIcon className="absolute w-[35rem] h-[35rem] text-tiffany opacity-20 filter blur-[40px] pointer-events-none animate-ambient-1" strokeWidth="1" />
+                  
+                  <div className="relative w-80 h-80 md:w-[32rem] md:h-[32rem] rounded-full flex items-center justify-center group">
+                     <div className="absolute inset-0 rounded-full glass-frame animate-spin-slow opacity-80"></div>
+                     <div className="absolute inset-4 rounded-full border border-tiffany/20 border-dashed animate-spin-slow" style={{ animationDirection: 'reverse' }}></div>
+                     
+                     <div className="relative z-10 text-tiffany group-hover:scale-110 transition-transform duration-1000">
+                       <ButterflyIcon className="w-40 h-40 md:w-56 md:h-56 drop-shadow-[0_10px_20px_rgba(26,158,146,0.3)] animate-flap" strokeWidth="0.8" />
+                     </div>
+                     
+                     <div className="absolute bottom-12 bg-white/90 backdrop-blur-md px-6 py-2.5 rounded-full border border-white shadow-lg">
+                       <p className="font-serif text-sm font-bold text-graphite uppercase tracking-[0.2em]">Luxury Beauty</p>
+                     </div>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-        function toggleAccordion(btn) {
-            const content = btn.nextElementSibling;
-            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-            
-            // Close all others
-            document.querySelectorAll('.accordion-btn').forEach(b => {
-                b.setAttribute('aria-expanded', 'false');
-                b.nextElementSibling.style.maxHeight = null;
-            });
+            <section id="about" className="py-24 md:py-36 relative overflow-hidden">
+              <ButterflyIcon className="absolute top-1/2 right-[-5%] w-[50rem] h-[50rem] text-tiffany opacity-[0.03] -translate-y-1/2 pointer-events-none" strokeWidth="0.5" />
+              
+              <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
+                <div className="flex flex-col lg:flex-row gap-20 items-center">
+                  <div className="lg:w-5/12 relative">
+                    <div className="glass-frame p-4 rounded-[3rem] relative z-10 animate-float-slow">
+                      <div className="aspect-[3/4] rounded-[2.5rem] overflow-hidden relative bg-white shadow-inner">
+                        <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&q=80&w=800" alt="Интерьер студии MELISSA в Макеевке" className="object-cover w-full h-full transition-transform duration-1000 hover:scale-105" loading="lazy" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/50 via-transparent to-transparent"></div>
+                      </div>
+                    </div>
+                    
+                    <div className="absolute -bottom-6 -right-6 glass-frame p-6 md:p-8 rounded-[2rem] hidden md:block z-20">
+                      <ButterflyIcon className="w-12 h-12 text-tiffany mb-4" strokeWidth="1" />
+                      <p className="font-serif text-3xl font-bold text-graphite leading-tight">Естественная<br/><span className="italic text-tiffany">красота</span></p>
+                    </div>
+                  </div>
+                  
+                  <div className="lg:w-7/12">
+                    <div className="flex items-center gap-4 mb-6">
+                      <span className="w-16 h-[2px] bg-tiffany"></span>
+                      <span className="text-sm font-bold uppercase tracking-widest text-tiffany">Пространство ухода</span>
+                    </div>
+                    <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-10 text-graphite leading-[1.1]">
+                      Добро пожаловать в <br/><span className="text-tiffany italic">{STUDIO_NAME}</span>
+                    </h2>
+                    <div className="space-y-6 text-[#475569] text-lg lg:text-xl leading-relaxed font-medium">
+                      <p>
+                        Студия <strong>{STUDIO_NAME}</strong> — это не просто салон, это философия бережного отношения к себе. Расположенные в сердце Макеевки, мы создали атмосферу, где современные аппаратные технологии встречаются с искренней заботой.
+                      </p>
+                      <p>
+                        Мы предлагаем премиальные услуги лазерной эстетики: от деликатной эпиляции до глубокого фотоомоложения и RF-лифтинга. Наша миссия — подчеркнуть вашу индивидуальность, подарив коже сияние, а вам — абсолютную уверенность в себе.
+                      </p>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12">
+                      {[
+                        "Эстетика в деталях", 
+                        "Индивидуальные протоколы", 
+                        "Атмосфера релакса", 
+                        "Видимый результат"
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-center gap-5 group">
+                          <div className="w-14 h-14 rounded-full bg-white shadow-[0_5px_15px_rgba(26,158,146,0.15)] flex items-center justify-center text-tiffany group-hover:bg-tiffany group-hover:text-white transition-all duration-300">
+                            <i className="fa-solid fa-check text-xl"></i>
+                          </div>
+                          <span className="font-bold text-graphite tracking-wide text-lg">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-            if (!isExpanded) {
-                btn.setAttribute('aria-expanded', 'true');
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        }
+            <section id="services" className="py-24 md:py-36 relative">
+              <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
+                <div className="text-center mb-20">
+                  <span className="text-sm font-bold uppercase tracking-widest text-tiffany mb-4 block">Направления</span>
+                  <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-graphite mb-6">Эстетика лица и тела</h2>
+                  <p className="text-[#475569] max-w-2xl mx-auto text-lg font-medium">
+                    Премиальные процедуры, направленные на бережный уход, омоложение и пробуждение вашей естественной красоты.
+                  </p>
+                </div>
 
-        // --- 5. Parallax Butterfly ---
-        window.addEventListener('scroll', () => {
-            const scroll = window.scrollY;
-            const butterfly = document.getElementById('parallax-butterfly');
-            if(butterfly) {
-                // Move butterfly slightly based on scroll
-                butterfly.style.transform = `translateY(${scroll * 0.2}px) rotate(${scroll * 0.05}deg)`;
-            }
-            
-            // Navbar blur effect on scroll
-            const nav = document.getElementById('navbar');
-            if(scroll > 50) {
-                nav.classList.add('py-0');
-            } else {
-                nav.classList.remove('py-0');
-            }
-        });
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                  {servicesOverview.map((service, idx) => (
+                    <div key={idx} className="premium-card rounded-[2.5rem] p-10 flex flex-col h-full group overflow-hidden transition-all duration-500">
+                      <ButterflyIcon className="absolute -bottom-10 -right-10 w-56 h-56 text-tiffany opacity-0 group-hover:opacity-[0.06] transition-opacity duration-700 pointer-events-none" strokeWidth="0.8" />
+                      
+                      <div className="w-16 h-16 rounded-full bg-[#E0F2F1] flex items-center justify-center mb-8 text-tiffany group-hover:scale-110 group-hover:bg-tiffany group-hover:text-white transition-all duration-500 shadow-sm">
+                        <ButterflyIcon className="w-8 h-8" strokeWidth="1.2" />
+                      </div>
+                      <h3 className="font-serif text-3xl font-bold mb-4 text-graphite">{service.title}</h3>
+                      <p className="text-[#475569] mb-10 flex-grow leading-relaxed font-medium">{service.desc}</p>
+                      
+                      <button 
+                        onClick={() => handleWhatsAppClick(service.title)}
+                        className="flex items-center gap-3 text-sm font-bold text-tiffany uppercase tracking-wider group-hover:text-[#111827] transition-colors mt-auto w-max"
+                      >
+                        <span className="border-b-2 border-tiffany/40 group-hover:border-[#111827] pb-1 transition-colors">Записаться</span>
+                        <i className="fa-solid fa-arrow-right text-lg"></i>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
 
-        // --- 6. Mobile Menu ---
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        let isMenuOpen = false;
+            <section id="price" className="py-24 md:py-36 relative overflow-hidden">
+              <ButterflyIcon className="absolute top-10 left-[-10%] w-[40rem] h-[40rem] text-tiffany opacity-[0.04] rotate-45 pointer-events-none" strokeWidth="0.5" />
+              
+              <div className="container mx-auto px-4 md:px-8 max-w-5xl relative z-10">
+                <div className="text-center mb-16">
+                  <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-graphite">Прайс-лист</h2>
+                  <p className="text-[#475569] max-w-2xl mx-auto text-lg font-medium">
+                    Инвестиции в вашу красоту. Прозрачные цены на все премиальные услуги студии.
+                  </p>
+                </div>
 
-        menuBtn.addEventListener('click', () => {
-            isMenuOpen = !isMenuOpen;
-            if(isMenuOpen) {
-                mobileMenu.classList.remove('translate-x-full');
-                document.body.style.overflow = 'hidden';
-            } else {
-                mobileMenu.classList.add('translate-x-full');
-                document.body.style.overflow = 'auto';
-            }
-        });
+                <div className="flex overflow-x-auto no-scrollbar pb-6 mb-10 gap-4 md:flex-wrap md:justify-center px-2">
+                  {Object.values(priceData).map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveTab(cat.id)}
+                      className={`whitespace-nowrap px-8 py-4 rounded-full text-sm font-bold transition-all duration-300 shadow-sm border ${
+                        activeTab === cat.id 
+                          ? 'bg-graphite text-white border-graphite shadow-lg shadow-graphite/20' 
+                          : 'bg-white text-[#475569] border-white hover:border-tiffany/30 hover:text-tiffany'
+                      }`}
+                    >
+                      {cat.title}
+                    </button>
+                  ))}
+                </div>
 
-        // Close menu on link click
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => {
-                isMenuOpen = false;
-                mobileMenu.classList.add('translate-x-full');
-                document.body.style.overflow = 'auto';
-            });
-        });
+                <div className="premium-card rounded-[3rem] p-8 md:p-14 animate-fade-up" key={activeTab}>
+                  <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-gray-100 pb-8 mb-10 gap-6">
+                    <h3 className="font-serif text-3xl md:text-4xl font-bold text-graphite flex items-center gap-5">
+                      <div className="w-14 h-14 rounded-full bg-tiffany-light flex items-center justify-center text-tiffany">
+                        <ButterflyIcon className="w-8 h-8" strokeWidth="1.2" />
+                      </div>
+                      {priceData[activeTab].title}
+                    </h3>
+                    <button onClick={() => handleWhatsAppClick(priceData[activeTab].title)} className="bg-tiffany text-white hover:bg-[#138A7C] px-8 py-4 rounded-full font-bold transition-all text-sm flex items-center justify-center gap-3 shadow-[0_8px_20px_rgba(26,158,146,0.3)] hover:shadow-[0_12px_25px_rgba(26,158,146,0.4)] hover:-translate-y-1">
+                      Записаться на процедуру
+                    </button>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4">
+                    {priceData[activeTab].items.map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between py-4 border-b border-gray-100/50 hover:border-tiffany transition-colors group">
+                        <span className="text-[#334155] font-semibold text-lg group-hover:text-tiffany transition-colors">{item.name}</span>
+                        <div className="flex items-center gap-4">
+                          <span className="font-bold text-graphite text-xl">{item.price} <span className="text-sm text-gray-400 font-medium">₽</span></span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
 
-        // Initialize Icons
-        lucide.createIcons();
+            <section id="advantages" className="py-24 md:py-36 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-[radial-gradient(circle_at_top_right,rgba(26,158,146,0.1),transparent_60%)] pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-[radial-gradient(circle_at_bottom_left,rgba(26,158,146,0.05),transparent_60%)] pointer-events-none"></div>
+              
+              <ButterflyIcon className="absolute top-1/2 left-1/2 w-[60rem] h-[60rem] text-tiffany opacity-[0.03] -translate-x-1/2 -translate-y-1/2 pointer-events-none" strokeWidth="0.5" />
+              
+              <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
+                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-20 text-center text-graphite">
+                  Почему выбирают <span className="text-tiffany italic">{STUDIO_NAME}</span>
+                </h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {[
+                    { title: "Эстетичный подход", desc: "Деликатное отношение к красоте и внимание к мельчайшим деталям каждой процедуры." },
+                    { title: "Премиальные аппараты", desc: "Мы используем только сертифицированное оборудование для максимальной эффективности." },
+                    { title: "Прозрачность", desc: "Честные цены. Вы всегда знаете точную стоимость услуги заранее, без скрытых платежей." },
+                    { title: "Удобная запись", desc: "Бронирование времени в пару кликов через удобный мессенджер." },
+                    { title: "Атмосфера релакса", desc: "Воздушное, светлое пространство, где вы сможете по-настоящему отдохнуть." },
+                    { title: "В центре Макеевки", desc: "Мы находимся в ТЦ «Рандеву» — удобно добраться из любой точки города." }
+                  ].map((adv, i) => (
+                    <div key={i} className="premium-card rounded-[2.5rem] p-10 flex flex-col h-full group overflow-hidden transition-all duration-500 bg-white/80 backdrop-blur-md">
+                      <div className="w-16 h-16 rounded-full bg-[#E0F2F1] flex items-center justify-center mb-8 text-tiffany group-hover:scale-110 group-hover:bg-tiffany group-hover:text-white transition-all duration-500 shadow-sm border border-tiffany/10">
+                        <ButterflyIcon className="w-8 h-8" strokeWidth="1.2" />
+                      </div>
+                      <h3 className="font-serif text-3xl font-bold mb-4 text-graphite">{adv.title}</h3>
+                      <p className="text-[#475569] font-medium leading-relaxed">{adv.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
 
-    </script>
+            <section id="faq" className="py-24 md:py-36 relative">
+              <div className="container mx-auto px-4 md:px-8 max-w-3xl relative z-10">
+                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-16 text-center text-graphite">Популярные вопросы</h2>
+                
+                <div className="space-y-6">
+                  {faqs.map((faq, i) => (
+                    <div key={i} className="premium-card rounded-[2rem] overflow-hidden transition-all duration-300">
+                      <button 
+                        className="w-full text-left px-8 py-7 flex justify-between items-center focus:outline-none group"
+                        onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
+                      >
+                        <h3 className="font-bold text-xl text-graphite pr-4 group-hover:text-tiffany transition-colors">{faq.question}</h3>
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${openFaq === i ? 'bg-tiffany text-white shadow-md' : 'bg-gray-50 text-gray-400 group-hover:bg-[#E0F2F1] group-hover:text-tiffany'}`}>
+                          {openFaq === i ? <i className="fa-solid fa-chevron-up text-xl"></i> : <i className="fa-solid fa-chevron-down text-xl"></i>}
+                        </div>
+                      </button>
+                      <div className={`px-8 pb-8 text-[#475569] text-lg font-medium leading-relaxed ${openFaq === i ? 'block animate-fade-up' : 'hidden'}`}>
+                        <p>{faq.answer}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section id="contacts" className="py-24 md:py-36 relative">
+              <div className="container mx-auto px-4 md:px-8 max-w-6xl">
+                <div className="premium-card rounded-[3.5rem] overflow-hidden flex flex-col md:flex-row relative z-10">
+                  
+                  <div className="md:w-[45%] p-12 md:p-16 bg-gradient-to-br from-white to-[#F0F7F6] flex flex-col justify-center relative overflow-hidden">
+                    <ButterflyIcon className="absolute -bottom-20 -left-20 w-[30rem] h-[30rem] text-tiffany opacity-[0.04] rotate-45 pointer-events-none" strokeWidth="0.8" />
+                    
+                    <div className="mb-14 relative z-10">
+                      <span className="font-serif text-5xl font-bold text-graphite uppercase tracking-widest block mb-4">{STUDIO_NAME}</span>
+                      <p className="text-[#475569] font-bold tracking-widest uppercase text-sm">Эстетика лица и тела</p>
+                    </div>
+                    
+                    <div className="space-y-10 mb-14 relative z-10">
+                      <div className="flex items-start gap-6">
+                        <div className="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center flex-shrink-0 text-tiffany border border-gray-50">
+                          <i className="fa-solid fa-location-dot text-xl"></i>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-400 mb-2 uppercase tracking-wider font-bold">Адрес</p>
+                          <p className="font-bold text-graphite text-lg leading-snug">{STUDIO_ADDRESS}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-6">
+                        <div className="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center flex-shrink-0 text-tiffany border border-gray-50">
+                          <i className="fa-regular fa-clock text-xl"></i>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-400 mb-2 uppercase tracking-wider font-bold">Режим работы</p>
+                          <p className="font-bold text-graphite text-lg">{STUDIO_HOURS}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-6">
+                        <div className="w-14 h-14 rounded-full bg-white shadow-md flex items-center justify-center flex-shrink-0 text-tiffany border border-gray-50">
+                          <i className="fa-solid fa-phone text-xl"></i>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-400 mb-2 uppercase tracking-wider font-bold">Телефон</p>
+                          <a href={`tel:${STUDIO_PHONE.replace(/\s+/g, '')}`} className="font-bold text-graphite text-2xl hover:text-tiffany transition-colors block mt-1">{STUDIO_PHONE}</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+                      <button onClick={() => handleWhatsAppClick()} className="bg-tiffany text-white py-5 px-10 rounded-full font-bold shadow-[0_8px_20px_rgba(26,158,146,0.3)] hover:shadow-[0_12px_25px_rgba(26,158,146,0.5)] hover:-translate-y-1 hover:bg-[#138A7C] transition-all flex items-center justify-center gap-3 text-lg">
+                        <i className="fa-brands fa-whatsapp text-2xl"></i> Написать в WA
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="md:w-[55%] relative min-h-[400px] md:min-h-[500px] border-l border-gray-100/50 bg-gray-50">
+                    <iframe 
+                      title="Yandex Map MELISSA"
+                      src="https://yandex.ru/map-widget/v1/?text=Макеевка,+бульвар+Горбачева,+32,+ТЦ+Рандеву&z=17" 
+                      width="100%" 
+                      height="100%" 
+                      frameBorder="0" 
+                      allowFullScreen={true}
+                      className="absolute inset-0 w-full h-full grayscale-[0.2] contrast-[1.1] hover:grayscale-0 transition-all duration-700"
+                    ></iframe>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </main>
+
+          <footer className="bg-white border-t border-gray-100 py-16 md:pb-16 pb-36 relative overflow-hidden z-10"> 
+            <ButterflyIcon className="absolute bottom-0 right-0 w-80 h-80 text-tiffany opacity-[0.03] pointer-events-none translate-y-1/3 translate-x-1/3" strokeWidth="1" />
+            <div className="container mx-auto px-4 md:px-8 max-w-7xl flex flex-col md:flex-row justify-between items-center gap-8 text-sm text-center md:text-left relative z-10">
+              <div className="flex flex-col items-center md:items-start gap-4">
+                <span className="font-serif text-4xl font-bold tracking-[0.1em] uppercase text-graphite">{STUDIO_NAME}</span>
+                <span className="text-[#475569] font-bold tracking-widest uppercase text-xs">Лазерная эстетика</span>
+              </div>
+              <p className="text-[#475569] font-bold text-base">© {new Date().getFullYear()} {STUDIO_NAME}. г. Макеевка. Все права защищены.</p>
+              <div className="flex gap-6">
+                <a href="#" className="text-gray-400 font-bold hover:text-tiffany transition-colors">Конфиденциальность</a>
+              </div>
+            </div>
+          </footer>
+
+          <div className="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-xl border-t border-gray-200 p-4 flex justify-between gap-3 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.08)] pb-safe">
+            <a 
+              href={`tel:${STUDIO_PHONE.replace(/\s+/g, '')}`} 
+              className="flex-1 bg-[#F8FAFA] border border-gray-200 text-[#334155] py-3.5 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-sm active:bg-gray-100 transition-colors"
+            >
+              <i className="fa-solid fa-phone text-xl text-tiffany"></i>
+              <span className="text-[10px] uppercase tracking-wider font-bold">Звонок</span>
+            </a>
+            <a 
+              href="#price" 
+              className="flex-1 bg-[#F8FAFA] border border-gray-200 text-[#334155] py-3.5 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-sm active:bg-gray-100 transition-colors"
+            >
+              <i className="fa-solid fa-list text-xl text-tiffany"></i>
+              <span className="text-[10px] uppercase tracking-wider font-bold">Прайс</span>
+            </a>
+            <button 
+              onClick={() => handleWhatsAppClick()}
+              className="flex-[2] bg-tiffany text-white py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(26,158,146,0.35)] flex flex-col items-center justify-center gap-1.5 active:scale-[0.98] transition-all"
+            >
+              <i className="fa-regular fa-calendar-check text-xl"></i>
+              <span className="text-[10px] uppercase tracking-wider font-bold">Записаться</span>
+            </button>
+          </div>
+
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
 </body>
 </html>
