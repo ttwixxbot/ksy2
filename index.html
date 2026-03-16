@@ -8,7 +8,7 @@
   
   <!-- Шрифты -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Иконки FontAwesome (вместо Lucide для работы без сборщика) -->
+  <!-- Иконки FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- Tailwind CSS -->
@@ -53,8 +53,8 @@
     .animate-float-slow { animation: floatSlow 8s ease-in-out infinite; }
     
     @keyframes butterflyFlap {
-      0%, 100% { transform: scaleX(1) translateY(0); }
-      50% { transform: scaleX(0.8) translateY(-4px); }
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(0.9) translateY(-4px); }
     }
     .animate-flap { animation: butterflyFlap 5s ease-in-out infinite; }
 
@@ -111,7 +111,7 @@
     // --- НАСТРОЙКИ СТУДИИ ---
     const STUDIO_NAME = "MELISSA";
     const STUDIO_PHONE = "+7 949 322 54 74";
-    const STUDIO_WHATSAPP = "79493225474"; 
+    const CLEAN_PHONE = "tel:+79493225474";
     const STUDIO_ADDRESS = "г. Макеевка, бульвар Горбачева, 32, ТЦ «Рандеву», 3 этаж";
     const STUDIO_HOURS = "Ежедневно с 10:00 до 20:00 (по предварительной записи)";
 
@@ -252,7 +252,7 @@
       },
       {
         question: "Как записаться на процедуру?",
-        answer: "Записаться можно по телефону +7 949 322 54 74, написав нам в WhatsApp, Telegram или оставив заявку через сайт. Мы подберем для вас самое удобное время."
+        answer: "Записаться можно по телефону +7 949 322 54 74, или оставив заявку через наш сайт. Мы подберем для вас самое удобное время."
       },
       {
         question: "Где находится студия MELISSA?",
@@ -275,93 +275,12 @@
     // --- КОМПОНЕНТЫ ---
 
     const ButterflyIcon = ({ className, style }) => (
-      <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-        <defs>
-          <linearGradient id="wingTopL" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#B5EAE8" stopOpacity="0.9"/>
-            <stop offset="30%" stopColor="#5DCEC8" stopOpacity="0.95"/>
-            <stop offset="60%" stopColor="#A8D8E8" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#E8C8D8" stopOpacity="0.7"/>
-          </linearGradient>
-          <linearGradient id="wingTopR" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#B5EAE8" stopOpacity="0.9"/>
-            <stop offset="30%" stopColor="#5DCEC8" stopOpacity="0.95"/>
-            <stop offset="60%" stopColor="#A8D8E8" stopOpacity="0.85"/>
-            <stop offset="100%" stopColor="#E8C8D8" stopOpacity="0.7"/>
-          </linearGradient>
-          <linearGradient id="wingBotL" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#D4F0EE" stopOpacity="0.85"/>
-            <stop offset="40%" stopColor="#C8E8F0" stopOpacity="0.8"/>
-            <stop offset="70%" stopColor="#E0D0E8" stopOpacity="0.75"/>
-            <stop offset="100%" stopColor="#F0E0EA" stopOpacity="0.7"/>
-          </linearGradient>
-          <linearGradient id="wingBotR" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#D4F0EE" stopOpacity="0.85"/>
-            <stop offset="40%" stopColor="#C8E8F0" stopOpacity="0.8"/>
-            <stop offset="70%" stopColor="#E0D0E8" stopOpacity="0.75"/>
-            <stop offset="100%" stopColor="#F0E0EA" stopOpacity="0.7"/>
-          </linearGradient>
-        </defs>
-
-        {/* Нижние крылья */}
-        <path d="M148 148 C120 155,90 165,72 180 C55 195,50 215,58 230 C66 245,82 248,98 240 C112 233,125 218,132 202 C138 188,142 170,148 158 Z"
-              fill="url(#wingBotL)" stroke="#7ECCC8" strokeWidth="0.8" strokeOpacity="0.5"/>
-        <path d="M72 232 C65 242,62 255,68 262 C72 267,78 265,80 258 C82 252,78 244,72 232Z"
-              fill="url(#wingBotL)" stroke="#7ECCC8" strokeWidth="0.6" strokeOpacity="0.4"/>
-        <path d="M152 148 C180 155,210 165,228 180 C245 195,250 215,242 230 C234 245,218 248,202 240 C188 233,175 218,168 202 C162 188,158 170,152 158 Z"
-              fill="url(#wingBotR)" stroke="#7ECCC8" strokeWidth="0.8" strokeOpacity="0.5"/>
-        <path d="M228 232 C235 242,238 255,232 262 C228 267,222 265,220 258 C218 252,222 244,228 232Z"
-              fill="url(#wingBotR)" stroke="#7ECCC8" strokeWidth="0.6" strokeOpacity="0.4"/>
-
-        {/* Прожилки нижних крыльев */}
-        <g stroke="#5DCEC8" strokeWidth="0.5" strokeOpacity="0.45" fill="none">
-          <path d="M148 155 C135 170,115 185,95 195"/>
-          <path d="M148 162 C138 175,122 192,105 205"/>
-          <path d="M148 170 C142 185,132 200,118 215"/>
-          <path d="M152 155 C165 170,185 185,205 195"/>
-          <path d="M152 162 C162 175,178 192,195 205"/>
-          <path d="M152 170 C158 185,168 200,182 215"/>
-        </g>
-        <ellipse cx="105" cy="195" rx="18" ry="12" fill="#F0C8E0" fillOpacity="0.3" transform="rotate(-30 105 195)"/>
-        <ellipse cx="195" cy="195" rx="18" ry="12" fill="#F0C8E0" fillOpacity="0.3" transform="rotate(30 195 195)"/>
-
-        {/* Верхние крылья */}
-        <path d="M148 130 C135 110,108 88,78 72 C52 58,28 58,18 72 C8 86,14 108,30 125 C46 142,72 150,100 152 C118 153,136 150,148 145 Z"
-              fill="url(#wingTopL)" stroke="#2ABDB5" strokeWidth="1" strokeOpacity="0.6"/>
-        <path d="M152 130 C165 110,192 88,222 72 C248 58,272 58,282 72 C292 86,286 108,270 125 C254 142,228 150,200 152 C182 153,164 150,152 145 Z"
-              fill="url(#wingTopR)" stroke="#2ABDB5" strokeWidth="1" strokeOpacity="0.6"/>
-
-        {/* Прожилки верхних крыльев */}
-        <g stroke="#2ABDB5" strokeWidth="0.7" strokeOpacity="0.55" fill="none">
-          <path d="M148 140 C132 125,105 105,75 85"/>
-          <path d="M148 138 C128 120,98 100,65 82"/>
-          <path d="M148 136 C135 118,112 95,88 75"/>
-          <path d="M148 142 C130 130,108 118,85 110"/>
-          <path d="M148 144 C132 138,118 130,100 125"/>
-          <path d="M152 140 C168 125,195 105,225 85"/>
-          <path d="M152 138 C172 120,202 100,235 82"/>
-          <path d="M152 136 C165 118,188 95,212 75"/>
-          <path d="M152 142 C170 130,192 118,215 110"/>
-          <path d="M152 144 C168 138,182 130,200 125"/>
-        </g>
-        <ellipse cx="85" cy="105" rx="28" ry="20" fill="white" fillOpacity="0.25" transform="rotate(-35 85 105)"/>
-        <ellipse cx="215" cy="105" rx="28" ry="20" fill="white" fillOpacity="0.25" transform="rotate(35 215 105)"/>
-        <ellipse cx="55" cy="95" rx="15" ry="10" fill="#E8C8D8" fillOpacity="0.3" transform="rotate(-20 55 95)"/>
-        <ellipse cx="245" cy="95" rx="15" ry="10" fill="#E8C8D8" fillOpacity="0.3" transform="rotate(20 245 95)"/>
-
-        {/* Тельце */}
-        <ellipse cx="150" cy="112" rx="5" ry="5.5" fill="#3A3035"/>
-        <ellipse cx="150" cy="123" rx="4.5" ry="6" fill="#4A3840"/>
-        <path d="M146 130 C145 140,145 155,146 168 C147 178,149 182,150 183 C151 182,153 178,154 168 C155 155,155 140,154 130 C152 128,148 128,146 130Z"
-              fill="#3A3035"/>
-        <path d="M148.5 133 C147.5 143,147.5 158,148.5 168" stroke="#8A7880" strokeWidth="0.8" strokeOpacity="0.5" fill="none"/>
-
-        {/* Усики */}
-        <path d="M147 110 C138 98,128 85,122 72" stroke="#3A3035" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
-        <circle cx="121" cy="70" r="2.5" fill="#3A3035"/>
-        <path d="M153 110 C162 98,172 85,178 72" stroke="#3A3035" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
-        <circle cx="179" cy="70" r="2.5" fill="#3A3035"/>
-      </svg>
+      <img 
+        src="butterfly.png" 
+        alt="Melissa Butterfly" 
+        className={`${className} object-contain`} 
+        style={style} 
+      />
     );
 
     function App() {
@@ -378,13 +297,6 @@
         return () => window.removeEventListener('scroll', handleScroll);
       }, []);
 
-      const handleWhatsAppClick = (serviceName = '') => {
-        const text = serviceName 
-          ? `Здравствуйте! Хочу записаться на процедуру: ${serviceName}. Подскажите свободное время.`
-          : `Здравствуйте! Хочу записаться в студию MELISSA. Подскажите свободное время.`;
-        window.open(`https://wa.me/${STUDIO_WHATSAPP}?text=${encodeURIComponent(text)}`, '_blank');
-      };
-
       return (
         <div className="min-h-screen global-gradient-bg text-[#334155] flex flex-col font-light selection:bg-tiffany selection:text-white relative overflow-hidden">
           
@@ -394,7 +306,7 @@
           <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.04)] py-4' : 'bg-transparent py-6'}`}>
             <div className="container mx-auto px-4 md:px-8 flex justify-between items-center max-w-7xl">
               <a href="#" className="flex items-center gap-3 group">
-                <ButterflyIcon className="w-10 h-10 text-tiffany group-hover:animate-flap transition-transform duration-700" strokeWidth="1" />
+                <ButterflyIcon className="w-10 h-10 group-hover:animate-flap transition-transform duration-700" />
                 <span className="font-serif text-3xl font-bold tracking-[0.1em] uppercase text-graphite">{STUDIO_NAME}</span>
               </a>
 
@@ -407,10 +319,10 @@
               </nav>
 
               <div className="hidden md:flex items-center gap-6">
-                <a href={`tel:${STUDIO_PHONE.replace(/\s+/g, '')}`} className="font-bold text-sm text-graphite hover:text-tiffany transition-colors">{STUDIO_PHONE}</a>
-                <button onClick={() => handleWhatsAppClick()} className="bg-tiffany text-white px-7 py-3 rounded-full text-sm font-semibold shadow-[0_8px_20px_rgba(26,158,146,0.3)] hover:shadow-[0_12px_25px_rgba(26,158,146,0.5)] hover:-translate-y-0.5 hover:bg-[#138A7C] transition-all duration-300 flex items-center gap-2">
-                  <i className="fa-regular fa-calendar-check text-sm"></i> Записаться
-                </button>
+                <a href={CLEAN_PHONE} className="font-bold text-sm text-graphite hover:text-tiffany transition-colors">{STUDIO_PHONE}</a>
+                <a href={CLEAN_PHONE} className="bg-tiffany text-white px-7 py-3 rounded-full text-sm font-semibold shadow-[0_8px_20px_rgba(26,158,146,0.3)] hover:shadow-[0_12px_25px_rgba(26,158,146,0.5)] hover:-translate-y-0.5 hover:bg-[#138A7C] transition-all duration-300 flex items-center gap-2">
+                  <i className="fa-solid fa-phone text-sm"></i> Записаться
+                </a>
               </div>
 
               <button className="md:hidden text-graphite focus:outline-none" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -430,9 +342,9 @@
 
           <main className="flex-grow relative z-10">
             
-            <section className="relative min-h-[95vh] flex items-center pt-24 pb-20 overflow-hidden">
+            <section className="relative min-h-[70vh] flex items-center pt-15 pb-7 overflow-hidden">
               <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
-                <div className="lg:w-[55%] text-center lg:text-left pt-10 lg:pt-0 animate-fade-up">
+                <div className="lg:w-[55%] text-center lg:text-left pt-0 animate-fade-up">
                   <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/60 backdrop-blur-md border border-white text-sm font-bold text-tiffany mb-8 shadow-sm">
                     <i className="fa-solid fa-wand-magic-sparkles text-sm"></i> Студия лазерной эстетики в Макеевке
                   </div>
@@ -447,9 +359,9 @@
                   </p>
                   
                   <div className="flex flex-wrap gap-5 justify-center lg:justify-start">
-                    <button onClick={() => handleWhatsAppClick()} className="bg-tiffany hover:bg-[#138A7C] text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_12px_30px_rgba(26,158,146,0.35)] hover:shadow-[0_18px_40px_rgba(26,158,146,0.5)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
-                      Записаться <i className="fa-solid fa-arrow-right text-lg"></i>
-                    </button>
+                    <a href={CLEAN_PHONE} className="bg-tiffany hover:bg-[#138A7C] text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_12px_30px_rgba(26,158,146,0.35)] hover:shadow-[0_18px_40px_rgba(26,158,146,0.5)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
+                      Записаться <i className="fa-solid fa-phone text-lg"></i>
+                    </a>
                     <a href="#price" className="bg-white hover:bg-gray-50 text-graphite px-10 py-5 rounded-full font-bold text-lg border border-white shadow-[0_8px_20px_rgba(0,0,0,0.05)] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
                       Смотреть прайс
                     </a>
@@ -457,14 +369,14 @@
                 </div>
                 
                 <div className="lg:w-[45%] relative flex justify-center items-center animate-fade-up" style={{ animationDelay: '0.2s' }}>
-                  <ButterflyIcon className="absolute w-[35rem] h-[35rem] text-tiffany opacity-20 filter blur-[40px] pointer-events-none animate-ambient-1" strokeWidth="1" />
+                  <ButterflyIcon className="absolute w-[35rem] h-[35rem] opacity-20 filter blur-[40px] pointer-events-none animate-ambient-1" />
                   
                   <div className="relative w-80 h-80 md:w-[32rem] md:h-[32rem] rounded-full flex items-center justify-center group">
                      <div className="absolute inset-0 rounded-full glass-frame animate-spin-slow opacity-80"></div>
                      <div className="absolute inset-4 rounded-full border border-tiffany/20 border-dashed animate-spin-slow" style={{ animationDirection: 'reverse' }}></div>
                      
-                     <div className="relative z-10 text-tiffany group-hover:scale-110 transition-transform duration-1000">
-                       <ButterflyIcon className="w-40 h-40 md:w-56 md:h-56 drop-shadow-[0_10px_20px_rgba(26,158,146,0.3)] animate-flap" strokeWidth="0.8" />
+                     <div className="relative z-10 group-hover:scale-110 transition-transform duration-1000">
+                       <ButterflyIcon className="w-65 h-65 md:w-82 md:h-82 drop-shadow-[0_10px_20px_rgba(26,158,146,0.3)] animate-flap" />
                      </div>
                      
                      <div className="absolute bottom-12 bg-white/90 backdrop-blur-md px-6 py-2.5 rounded-full border border-white shadow-lg">
@@ -475,8 +387,8 @@
               </div>
             </section>
 
-            <section id="about" className="py-24 md:py-36 relative overflow-hidden">
-              <ButterflyIcon className="absolute top-1/2 right-[-5%] w-[50rem] h-[50rem] text-tiffany opacity-[0.03] -translate-y-1/2 pointer-events-none" strokeWidth="0.5" />
+            <section id="about" className="py-8 md:py-12 relative overflow-hidden">
+              <ButterflyIcon className="absolute top-1/2 right-[-5%] w-[50rem] h-[50rem] opacity-[0.03] -translate-y-1/2 pointer-events-none" />
               
               <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
                 <div className="flex flex-col lg:flex-row gap-20 items-center">
@@ -489,7 +401,7 @@
                     </div>
                     
                     <div className="absolute -bottom-6 -right-6 glass-frame p-6 md:p-8 rounded-[2rem] hidden md:block z-20">
-                      <ButterflyIcon className="w-12 h-12 text-tiffany mb-4" strokeWidth="1" />
+                      <ButterflyIcon className="w-12 h-12 mb-4" />
                       <p className="font-serif text-3xl font-bold text-graphite leading-tight">Естественная<br/><span className="italic text-tiffany">красота</span></p>
                     </div>
                   </div>
@@ -531,7 +443,7 @@
               </div>
             </section>
 
-            <section id="services" className="py-24 md:py-36 relative">
+            <section id="services" className="py-12 md:py-18 relative">
               <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
                 <div className="text-center mb-20">
                   <span className="text-sm font-bold uppercase tracking-widest text-tiffany mb-4 block">Направления</span>
@@ -544,29 +456,29 @@
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                   {servicesOverview.map((service, idx) => (
                     <div key={idx} className="premium-card rounded-[2.5rem] p-10 flex flex-col h-full group overflow-hidden transition-all duration-500">
-                      <ButterflyIcon className="absolute -bottom-10 -right-10 w-56 h-56 text-tiffany opacity-0 group-hover:opacity-[0.06] transition-opacity duration-700 pointer-events-none" strokeWidth="0.8" />
+                      <ButterflyIcon className="absolute -bottom-10 -right-10 w-100 h-100 opacity-0 group-hover:opacity-[0.06] transition-opacity duration-700 pointer-events-none" />
                       
-                      <div className="w-16 h-16 rounded-full bg-[#E0F2F1] flex items-center justify-center mb-8 text-tiffany group-hover:scale-110 group-hover:bg-tiffany group-hover:text-white transition-all duration-500 shadow-sm">
-                        <ButterflyIcon className="w-8 h-8" strokeWidth="1.2" />
+                      <div className="w-16 h-16 rounded-full bg-[#E0F2F1] flex items-center justify-center mb-8 text-tiffany group-hover:scale-110 group-hover:bg-tiffany group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden">
+                        <ButterflyIcon className="w-8 h-8" />
                       </div>
                       <h3 className="font-serif text-3xl font-bold mb-4 text-graphite">{service.title}</h3>
                       <p className="text-[#475569] mb-10 flex-grow leading-relaxed font-medium">{service.desc}</p>
                       
-                      <button 
-                        onClick={() => handleWhatsAppClick(service.title)}
+                      <a 
+                        href={CLEAN_PHONE}
                         className="flex items-center gap-3 text-sm font-bold text-tiffany uppercase tracking-wider group-hover:text-[#111827] transition-colors mt-auto w-max"
                       >
                         <span className="border-b-2 border-tiffany/40 group-hover:border-[#111827] pb-1 transition-colors">Записаться</span>
                         <i className="fa-solid fa-arrow-right text-lg"></i>
-                      </button>
+                      </a>
                     </div>
                   ))}
                 </div>
               </div>
             </section>
 
-            <section id="price" className="py-24 md:py-36 relative overflow-hidden">
-              <ButterflyIcon className="absolute top-10 left-[-10%] w-[40rem] h-[40rem] text-tiffany opacity-[0.04] rotate-45 pointer-events-none" strokeWidth="0.5" />
+            <section id="price" className="py-12 md:py-18 relative overflow-hidden">
+              <ButterflyIcon className="absolute top-10 left-[-10%] w-[40rem] h-[40rem] opacity-[0.04] rotate-45 pointer-events-none" />
               
               <div className="container mx-auto px-4 md:px-8 max-w-5xl relative z-10">
                 <div className="text-center mb-16">
@@ -595,14 +507,14 @@
                 <div className="premium-card rounded-[3rem] p-8 md:p-14 animate-fade-up" key={activeTab}>
                   <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-gray-100 pb-8 mb-10 gap-6">
                     <h3 className="font-serif text-3xl md:text-4xl font-bold text-graphite flex items-center gap-5">
-                      <div className="w-14 h-14 rounded-full bg-tiffany-light flex items-center justify-center text-tiffany">
-                        <ButterflyIcon className="w-8 h-8" strokeWidth="1.2" />
+                      <div className="w-14 h-14 rounded-full bg-tiffany-light flex items-center justify-center overflow-hidden">
+                        <ButterflyIcon className="w-8 h-8" />
                       </div>
                       {priceData[activeTab].title}
                     </h3>
-                    <button onClick={() => handleWhatsAppClick(priceData[activeTab].title)} className="bg-tiffany text-white hover:bg-[#138A7C] px-8 py-4 rounded-full font-bold transition-all text-sm flex items-center justify-center gap-3 shadow-[0_8px_20px_rgba(26,158,146,0.3)] hover:shadow-[0_12px_25px_rgba(26,158,146,0.4)] hover:-translate-y-1">
+                    <a href={CLEAN_PHONE} className="bg-tiffany text-white hover:bg-[#138A7C] px-8 py-4 rounded-full font-bold transition-all text-sm flex items-center justify-center gap-3 shadow-[0_8px_20px_rgba(26,158,146,0.3)] hover:shadow-[0_12px_25px_rgba(26,158,146,0.4)] hover:-translate-y-1">
                       Записаться на процедуру
-                    </button>
+                    </a>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4">
@@ -619,11 +531,11 @@
               </div>
             </section>
 
-            <section id="advantages" className="py-24 md:py-36 relative overflow-hidden">
+            <section id="advantages" className="py-12 md:py-18 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-[radial-gradient(circle_at_top_right,rgba(26,158,146,0.1),transparent_60%)] pointer-events-none"></div>
               <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-[radial-gradient(circle_at_bottom_left,rgba(26,158,146,0.05),transparent_60%)] pointer-events-none"></div>
               
-              <ButterflyIcon className="absolute top-1/2 left-1/2 w-[60rem] h-[60rem] text-tiffany opacity-[0.03] -translate-x-1/2 -translate-y-1/2 pointer-events-none" strokeWidth="0.5" />
+              <ButterflyIcon className="absolute top-1/2 left-1/2 w-[60rem] h-[60rem] opacity-[0.03] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
               
               <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
                 <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-20 text-center text-graphite">
@@ -635,13 +547,13 @@
                     { title: "Эстетичный подход", desc: "Деликатное отношение к красоте и внимание к мельчайшим деталям каждой процедуры." },
                     { title: "Премиальные аппараты", desc: "Мы используем только сертифицированное оборудование для максимальной эффективности." },
                     { title: "Прозрачность", desc: "Честные цены. Вы всегда знаете точную стоимость услуги заранее, без скрытых платежей." },
-                    { title: "Удобная запись", desc: "Бронирование времени в пару кликов через удобный мессенджер." },
+                    { title: "Удобная запись", desc: "Бронирование времени по звонку — быстро и просто." },
                     { title: "Атмосфера релакса", desc: "Воздушное, светлое пространство, где вы сможете по-настоящему отдохнуть." },
                     { title: "В центре Макеевки", desc: "Мы находимся в ТЦ «Рандеву» — удобно добраться из любой точки города." }
                   ].map((adv, i) => (
                     <div key={i} className="premium-card rounded-[2.5rem] p-10 flex flex-col h-full group overflow-hidden transition-all duration-500 bg-white/80 backdrop-blur-md">
-                      <div className="w-16 h-16 rounded-full bg-[#E0F2F1] flex items-center justify-center mb-8 text-tiffany group-hover:scale-110 group-hover:bg-tiffany group-hover:text-white transition-all duration-500 shadow-sm border border-tiffany/10">
-                        <ButterflyIcon className="w-8 h-8" strokeWidth="1.2" />
+                      <div className="w-16 h-16 rounded-full bg-[#E0F2F1] flex items-center justify-center mb-8 text-tiffany group-hover:scale-110 group-hover:bg-tiffany group-hover:text-white transition-all duration-500 shadow-sm border border-tiffany/10 overflow-hidden">
+                        <ButterflyIcon className="w-8 h-8" />
                       </div>
                       <h3 className="font-serif text-3xl font-bold mb-4 text-graphite">{adv.title}</h3>
                       <p className="text-[#475569] font-medium leading-relaxed">{adv.desc}</p>
@@ -651,7 +563,7 @@
               </div>
             </section>
 
-            <section id="faq" className="py-24 md:py-36 relative">
+            <section id="faq" className="py-12 md:py-18 relative">
               <div className="container mx-auto px-4 md:px-8 max-w-3xl relative z-10">
                 <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-16 text-center text-graphite">Популярные вопросы</h2>
                 
@@ -676,12 +588,12 @@
               </div>
             </section>
 
-            <section id="contacts" className="py-24 md:py-36 relative">
+            <section id="contacts" className="py-12 md:py-18 relative">
               <div className="container mx-auto px-4 md:px-8 max-w-6xl">
                 <div className="premium-card rounded-[3.5rem] overflow-hidden flex flex-col md:flex-row relative z-10">
                   
                   <div className="md:w-[45%] p-12 md:p-16 bg-gradient-to-br from-white to-[#F0F7F6] flex flex-col justify-center relative overflow-hidden">
-                    <ButterflyIcon className="absolute -bottom-20 -left-20 w-[30rem] h-[30rem] text-tiffany opacity-[0.04] rotate-45 pointer-events-none" strokeWidth="0.8" />
+                    <ButterflyIcon className="absolute -bottom-20 -left-20 w-[30rem] h-[30rem] opacity-[0.04] rotate-45 pointer-events-none" />
                     
                     <div className="mb-14 relative z-10">
                       <span className="font-serif text-5xl font-bold text-graphite uppercase tracking-widest block mb-4">{STUDIO_NAME}</span>
@@ -715,15 +627,15 @@
                         </div>
                         <div>
                           <p className="text-sm text-gray-400 mb-2 uppercase tracking-wider font-bold">Телефон</p>
-                          <a href={`tel:${STUDIO_PHONE.replace(/\s+/g, '')}`} className="font-bold text-graphite text-2xl hover:text-tiffany transition-colors block mt-1">{STUDIO_PHONE}</a>
+                          <a href={CLEAN_PHONE} className="font-bold text-graphite text-2xl hover:text-tiffany transition-colors block mt-1">{STUDIO_PHONE}</a>
                         </div>
                       </div>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 relative z-10">
-                      <button onClick={() => handleWhatsAppClick()} className="bg-tiffany text-white py-5 px-10 rounded-full font-bold shadow-[0_8px_20px_rgba(26,158,146,0.3)] hover:shadow-[0_12px_25px_rgba(26,158,146,0.5)] hover:-translate-y-1 hover:bg-[#138A7C] transition-all flex items-center justify-center gap-3 text-lg">
-                        <i className="fa-brands fa-whatsapp text-2xl"></i> Написать в WA
-                      </button>
+                      <a href={CLEAN_PHONE} className="bg-tiffany text-white py-5 px-10 rounded-full font-bold shadow-[0_8px_20px_rgba(26,158,146,0.3)] hover:shadow-[0_12px_25px_rgba(26,158,146,0.5)] hover:-translate-y-1 hover:bg-[#138A7C] transition-all flex items-center justify-center gap-3 text-lg">
+                        <i className="fa-solid fa-phone text-2xl"></i> Позвонить нам
+                      </a>
                     </div>
                   </div>
 
@@ -745,7 +657,7 @@
           </main>
 
           <footer className="bg-white border-t border-gray-100 py-16 md:pb-16 pb-36 relative overflow-hidden z-10"> 
-            <ButterflyIcon className="absolute bottom-0 right-0 w-80 h-80 text-tiffany opacity-[0.03] pointer-events-none translate-y-1/3 translate-x-1/3" strokeWidth="1" />
+            <ButterflyIcon className="absolute bottom-0 right-0 w-80 h-80 opacity-[0.03] pointer-events-none translate-y-1/3 translate-x-1/3" />
             <div className="container mx-auto px-4 md:px-8 max-w-7xl flex flex-col md:flex-row justify-between items-center gap-8 text-sm text-center md:text-left relative z-10">
               <div className="flex flex-col items-center md:items-start gap-4">
                 <span className="font-serif text-4xl font-bold tracking-[0.1em] uppercase text-graphite">{STUDIO_NAME}</span>
@@ -760,7 +672,7 @@
 
           <div className="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-xl border-t border-gray-200 p-4 flex justify-between gap-3 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.08)] pb-safe">
             <a 
-              href={`tel:${STUDIO_PHONE.replace(/\s+/g, '')}`} 
+              href={CLEAN_PHONE} 
               className="flex-1 bg-[#F8FAFA] border border-gray-200 text-[#334155] py-3.5 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-sm active:bg-gray-100 transition-colors"
             >
               <i className="fa-solid fa-phone text-xl text-tiffany"></i>
@@ -773,13 +685,13 @@
               <i className="fa-solid fa-list text-xl text-tiffany"></i>
               <span className="text-[10px] uppercase tracking-wider font-bold">Прайс</span>
             </a>
-            <button 
-              onClick={() => handleWhatsAppClick()}
+            <a 
+              href={CLEAN_PHONE}
               className="flex-[2] bg-tiffany text-white py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(26,158,146,0.35)] flex flex-col items-center justify-center gap-1.5 active:scale-[0.98] transition-all"
             >
-              <i className="fa-regular fa-calendar-check text-xl"></i>
+              <i className="fa-solid fa-phone text-xl"></i>
               <span className="text-[10px] uppercase tracking-wider font-bold">Записаться</span>
-            </button>
+            </a>
           </div>
 
         </div>
